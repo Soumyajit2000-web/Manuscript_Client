@@ -1,0 +1,21 @@
+.ctaContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4rem 2rem;
+    background: antiquewhite;
+}
+
+.ctaLeft{
+    width: 60%;
+    padding: 0em 4em;
+    
+}
+
+.ctaRight{
+    width: 40%;
+}
+
+.ctaRight img{
+    width: 100%;
+}
