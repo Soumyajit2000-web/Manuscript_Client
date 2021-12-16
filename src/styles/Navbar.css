@@ -7,7 +7,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: fixed;
+    position: sticky;
+    top: 0;
     z-index: 999;
 }
 
@@ -34,7 +35,6 @@
 .bottomNav{
     width: 100vw;
     height: 3rem;
-    position: absolute;
     bottom: 0;
     display: flex;
     align-items: center;

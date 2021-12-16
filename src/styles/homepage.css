@@ -11,6 +11,8 @@
     padding: 2rem;
     height: fit-content;
     border-radius: 10px;
+    position: sticky;
+    top: 5rem;
 }
 
 .posts{
@@ -35,6 +37,11 @@
     .postContainer{
         flex-direction: column;
         padding: 0rem 1rem;
+    }
+
+    .chips{
+        position: relative;
+        top: auto;
     }
 }
 
