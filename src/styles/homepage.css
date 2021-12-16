@@ -1,0 +1,40 @@
+.postContainer{
+    display: flex;
+    padding: 0rem 3rem;
+    flex-direction: row-reverse;
+    margin-top: 2rem;
+    gap: 50px;
+}
+
+.chips{
+    border: 2px solid black;
+    padding: 2rem;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+.posts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 2px solid red; */
+    gap: 2rem;
+    /* padding: 2rem; */
+}
+
+
+.postWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px){
+    .postContainer{
+        flex-direction: column;
+        padding: 0rem 1rem;
+    }
+}
+

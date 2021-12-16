@@ -8,7 +8,7 @@ function Cta() {
     return (
         <div className="ctaContainer">
             <div className="ctaLeft">
-                <Typography variant="h3" gutterBottom style={{color: "#00d18b", fontWeight: "bolder"}}>
+                <Typography variant="h4" gutterBottom style={{color: "#00d18b", fontWeight: "bolder"}}>
                     LET THE WORLD READ WHAT YOU TYPE...!
                 </Typography>
                 <Typography variant="body1" gutterBottom>

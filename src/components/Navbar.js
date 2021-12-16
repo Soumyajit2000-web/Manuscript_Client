@@ -1,6 +1,6 @@
-import React from 'react'
-import '../styles/Navbar.css'
-import logo from '../images/onlinelogomaker-051321-1920-2225.png'
+import React from 'react';
+import '../styles/Navbar.css';
+import logo from '../images/onlinelogomaker-051321-1920-2225.png';
 import { Button } from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
