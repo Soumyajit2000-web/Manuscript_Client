@@ -55,9 +55,6 @@ function Homepage() {
                         <PostCard />
                         <PostCard />
                         <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard />
                     </div>
 
                 </div>
