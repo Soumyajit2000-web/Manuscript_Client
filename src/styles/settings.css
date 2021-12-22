@@ -1,8 +1,46 @@
-.userSettings{
-    border: 2px solid red;
+
+.userProfie{
+    /* border: 2px solid red; */
+    display: flex;
+    gap: 20px;
+    padding: 2rem;
+    width: 100%;
+    min-height: 90vh;
 }
 
 .updateProfile{
-    border: 2px solid green;
+    /* border: 2px solid green; */
+    width: 350vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    /* justify-content: center; */
 }
 
+.profilePic{
+    width: 100%;
+    position: relative;
+    /* display: flex; */
+}
+
+.profilePic label{
+    position: absolute;
+    top: 54px;
+    left: 45px;
+}
+
+.profileInfo{
+    width: 100%;
+    padding: 0rem 1rem;
+}
+
+@media screen and (max-width: 768px){
+    .userProfie{
+        flex-direction: column;
+    }
+
+    .updateProfile{
+        width: 100%;
+    }
+}

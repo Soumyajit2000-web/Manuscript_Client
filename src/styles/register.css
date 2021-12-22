@@ -1,0 +1,16 @@
+.registerContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 90vh;
+    align-items: center;
+    padding: 2rem 0rem;
+    background-color: aliceblue;
+}
+
+.registerForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}

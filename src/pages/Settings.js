@@ -1,17 +1,18 @@
 import React from 'react'
-import '../styles/settings.css';
 import AuthorDetails from '../components/AuthorDetails'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core'
+import '../styles/settings.css'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexDirection: "column",
-        gap: "10px"
-
+        gap: "20px",
+        width: "100%",
     },
 
     large: {
@@ -25,7 +26,7 @@ function Settings() {
 
     return (
         <>
-            <div classname="userSettings">
+            <div className="userProfie">
                 <div className="updateProfile">
                     <div className="profilePic">
                         <Avatar alt="Name" src="" className={classes.large} />
@@ -36,7 +37,7 @@ function Settings() {
                     </div>
 
                     <div className="profileInfo">
-                        <form className={classes.root} action="">
+                        <form className={classes.root} action="" noValidate autoComplete="off">
                             <TextField
                                 required id="standard-required"
                                 label="Name"
@@ -55,11 +56,13 @@ function Settings() {
                                 type="password"
                                 autoComplete="current-password"
                             />
+                            <Button style={{backgroundColor: "#00d18b"}}>Save Changes</Button>
                         </form>
                     </div>
                 </div>
                 <AuthorDetails />
             </div>
+
         </>
     )
 }
