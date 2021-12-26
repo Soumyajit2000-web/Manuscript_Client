@@ -84,4 +84,8 @@
     .user ul li:nth-child(1){
         display: none;
     }
+
+    .logOutBtn{
+        display: block;
+    }
 }

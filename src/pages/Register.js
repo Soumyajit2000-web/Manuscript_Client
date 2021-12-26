@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
 import '../styles/register.css';
+import { Link } from 'react-router-dom';
 
 function Register() {
     return (
@@ -33,7 +34,11 @@ function Register() {
             </form>
 
             <Typography variant="body2"> Already have an account ? </Typography>
-            <Button variant="contained" style={{color: "white", backgroundColor: "#00d18b"}}>Login</Button>
+
+            <Link to="/login" style={{textDecoration: "none"}}>
+                <Button variant="contained" style={{color: "white", backgroundColor: "#00d18b"}}>Login</Button>
+            </Link>
+           
         </div>
     )
 }

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Homepage() {
+function Homepage(props) {
 
     const classes = useStyles();
 
@@ -27,8 +27,12 @@ function Homepage() {
     };
 
     return (
-        <>
-            <Cta />
+        <>  
+            {
+
+                props.isLogin ? null :  <Cta />
+
+            }
             <div className="postContainer">
                 <div className="chips">
                     <Typography varient="h6" style={{ fontWeight: "bolder", marginBottom: "1rem" }}>
