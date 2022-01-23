@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Homepage from './pages/Homepage';
-import './App.css';
+import './App.scss';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Register from './pages/Register';

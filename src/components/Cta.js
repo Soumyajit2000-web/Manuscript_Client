@@ -11,7 +11,7 @@ function Cta() {
                 <Typography variant="h4" gutterBottom style={{color: "#00d18b", fontWeight: "bolder"}}>
                     LET THE WORLD READ WHAT YOU TYPE...!
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1" className="cta-body" gutterBottom>
                     The all in one platform to read and write any kind of content like articles, news, blogs, papers, stories, novels, poems and many more. Your reach is literally at your finger tips.
                 </Typography>
                 <br></br>

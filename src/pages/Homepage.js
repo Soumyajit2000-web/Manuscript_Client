@@ -1,5 +1,6 @@
 import React from 'react'
-import PostCard from '../components/PostCard'
+// import PostCard from '../components/PostCard'
+import PostCard from '../components/PostCardNew';
 import Cta from '../components/Cta';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
@@ -59,6 +60,7 @@ function Homepage(props) {
                         <PostCard />
                         <PostCard />
                         <PostCard />
+                        <PostCard/>
                     </div>
 
                 </div>
