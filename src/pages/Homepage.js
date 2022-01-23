@@ -4,7 +4,7 @@ import Cta from '../components/Cta';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import { Typography } from '@material-ui/core';
-import '../styles/homepage.css'
+import '../styles/homepage.scss'
 
 
 const useStyles = makeStyles((theme) => ({

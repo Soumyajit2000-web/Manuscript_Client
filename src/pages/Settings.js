@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core'
-import '../styles/settings.css'
+import '../styles/settings.scss'
 
 const useStyles = makeStyles((theme) => ({
     root: {

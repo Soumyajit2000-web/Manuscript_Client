@@ -3,7 +3,7 @@ import React from 'react'
 import AuthorDetails from '../components/AuthorDetails'
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import '../styles/postPage.css'
+import '../styles/postPage.scss'
 
 function PostPage() {
     return (

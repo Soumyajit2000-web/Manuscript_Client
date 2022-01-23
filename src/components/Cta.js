@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/Cta.css'
+import '../styles/Cta.scss'
 import Typography from '@material-ui/core/Typography';
 import ctaImg from '../images/notebook.svg';
 import { Button } from '@material-ui/core';

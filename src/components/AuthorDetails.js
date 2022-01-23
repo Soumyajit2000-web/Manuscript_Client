@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 import { Button, Typography } from '@material-ui/core';
-import '../styles/authorDetail.css';
+import '../styles/authorDetail.scss';
 
 const useStyles = makeStyles((theme) => ({
     orange: {

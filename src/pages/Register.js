@@ -1,7 +1,7 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
-import '../styles/register.css';
+import '../styles/register.scss';
 import { Link } from 'react-router-dom';
 
 function Register() {

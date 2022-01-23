@@ -1,6 +1,6 @@
 import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
-import '../styles/write.css';
+import '../styles/write.scss';
 import { Button } from '@material-ui/core'
 
 function Write() {

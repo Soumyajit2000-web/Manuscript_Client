@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/login.css'
+import '../styles/login.scss'
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
