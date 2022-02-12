@@ -40,8 +40,6 @@ function PostCard() {
 
                     </div>
 
-
-
                 </div>
 
             </main>
