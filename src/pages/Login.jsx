@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import '../styles/login.scss'
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/auth';
 
 function Login(props) {
+    const { onToastOpen, onToastClose, setIsLogin } = props;
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    
+    const navigate = useNavigate();
+
     const handleLogin = async () => {
         const data = {
             username: username,
@@ -17,9 +19,19 @@ function Login(props) {
 
         try{
             let response = await loginUser(data)
-            console.log(response)
+            // console.log(response.data._id);
+            localStorage.setItem("Account-Id", `${response.data._id}`);
+            setIsLogin(true)
+            navigate("/")
         }catch(err){
             console.log(err)
+            onToastOpen({
+                severity: "error",
+                message: "Something went wrong!!!"
+            })
+            setTimeout(()=>{
+                onToastClose();
+            }, 5000)
         }
 
     }

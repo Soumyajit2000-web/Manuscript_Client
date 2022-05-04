@@ -5,12 +5,21 @@ import { Button, Avatar } from '@material-ui/core';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 function Navbar(props) {
-  if (props.isLogin) {
+  const { isLogin, setIsLogin } = props;
+  const navigate = useNavigate();
+
+  const handleLogout = () =>{
+    setIsLogin(false);
+    localStorage.removeItem("Account-Id");
+    navigate('/')
+  }
+
+  if (isLogin) {
     return (
       <>
         <div className="nav">
@@ -48,7 +57,7 @@ function Navbar(props) {
 
               <li>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                  <Button onClick={() => props.setIsLogin(false)}>Log Out</Button>
+                  <Button onClick={handleLogout}>Log Out</Button>
                 </Link>
               </li>
 

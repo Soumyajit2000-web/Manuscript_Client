@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AuthorDetails from '../components/AuthorDetails'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -21,8 +21,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Settings() {
+function Settings(props) {
+    const { accountDetails } = props;
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const classes = useStyles();
+
+    useEffect(()=>{
+        if(accountDetails){
+            setUsername(accountDetails.username)
+            setEmail(accountDetails.email)
+        }
+    }, [])
 
     return (
         <>
@@ -41,13 +52,15 @@ function Settings() {
                             <TextField
                                 required id="standard-required"
                                 label="Name"
-                                defaultValue=""
+                                value={username}
+                                onChange={(e)=>setUsername(e.target.value)}
                             />
 
                             <TextField
                                 required id="standard-required"
                                 label="Email"
-                                defaultValue=""
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
                             />
 
                             <TextField
@@ -55,6 +68,8 @@ function Settings() {
                                 label="Password"
                                 type="password"
                                 autoComplete="current-password"
+                                value={password}
+                                onChange={(e)=>setPassword(e.target.value)}
                             />
                             <Button style={{backgroundColor: "#00d18b"}}>Save Changes</Button>
                         </form>
