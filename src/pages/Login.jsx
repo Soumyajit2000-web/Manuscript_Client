@@ -1,21 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/login.scss'
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { loginUser } from '../services/auth';
 
 function Login(props) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const handleLogin = async () => {
+        const data = {
+            username: username,
+            password: password
+        }
+
+        try{
+            let response = await loginUser(data)
+            console.log(response)
+        }catch(err){
+            console.log(err)
+        }
+
+    }
+
     return (
         <div className="loginContainer">
             <Typography variant="h3" gutterBottom>
                 Login
             </Typography>
             <form className="loginForm" action="" noValidate autoComplete="off">
-                {/* <label>Email</label> */}
                 <TextField
                     id="outlined-basic"
-                    label="Email"
+                    label="Username"
                     variant="outlined"
+                    value={username}
+                    onChange={(e)=>setUsername(e.target.value)}
                 />
 
                 <TextField
@@ -24,8 +44,10 @@ function Login(props) {
                     type="password"
                     autoComplete="current-password"
                     variant="outlined"
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
                 />
-                <Button onClick={()=>props.setIsLogin(true)} variant="contained" color="primary">Login</Button>
+                <Button variant="contained" color="primary" onClick={handleLogin}>Login</Button>
             </form>
 
             <Typography variant="body2"> Didn't have an account ? </Typography>

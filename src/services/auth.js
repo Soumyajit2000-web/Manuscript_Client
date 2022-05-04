@@ -1,4 +1,3 @@
-import axios from "axios";
 import { apiInstance } from './api';
 
 export const registerUser = async(credentialData) => {

@@ -1,10 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Button, Typography } from '@material-ui/core';
 import '../styles/register.scss';
 import { Link } from 'react-router-dom';
+import { registerUser } from '../services/auth';
 
-function Register() {
+function Register(props) {
+    const { onToastOpen, onToastClose } = props;
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
+
+    const handleRegister = async () => {
+        const data = {
+            username: userName,
+            email: email,
+            password: password
+        }
+
+        try {
+            const response = await registerUser(data);
+            console.log(response);
+            navigate('/login');
+            onToastOpen({
+                severity: "success",
+                message: "Your registration was successful"
+            })
+            setTimeout(()=>{
+                onToastClose();
+            }, 5000)
+        } catch (error) {
+            console.log(error);
+            onToastOpen({
+                severity: "error",
+                message: "Something went wrong!!!"
+            })
+            setTimeout(()=>{
+                onToastClose();
+            }, 5000)
+        }
+
+    }
+
     return (
         <div className="registerContainer">
             <Typography variant="h3" gutterBottom>
@@ -15,12 +54,16 @@ function Register() {
                     id="outlined-basic"
                     label="Name"
                     variant="outlined"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                 />
 
                 <TextField
                     id="outlined-basic"
                     label="Email"
                     variant="outlined"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <TextField
@@ -29,16 +72,18 @@ function Register() {
                     type="password"
                     autoComplete="current-password"
                     variant="outlined"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button variant="contained" color="primary">Sign Up</Button>
+                <Button variant="contained" color="primary" onClick={handleRegister}>Sign Up</Button>
             </form>
 
             <Typography variant="body2"> Already have an account ? </Typography>
 
-            <Link to="/login" style={{textDecoration: "none"}}>
-                <Button variant="contained" style={{color: "white", backgroundColor: "#00d18b"}}>Login</Button>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+                <Button variant="contained" style={{ color: "white", backgroundColor: "#00d18b" }}>Login</Button>
             </Link>
-           
+
         </div>
     )
 }
