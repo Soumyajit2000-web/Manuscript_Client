@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core'
+import { Button } from '@material-ui/core';
+import Loading from '../components/common/Loading';
 import '../styles/settings.scss'
+import { updateUser } from '../services/users';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,18 +24,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
-    const { accountDetails } = props;
+    const { accountDetails, setAccountDetails } = props;
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState("");
+    const [aboutAuthor, setAboutAuthor] = useState("");
     const classes = useStyles();
 
-    useEffect(()=>{
-        if(accountDetails){
-            setUsername(accountDetails.username)
-            setEmail(accountDetails.email)
+    useEffect(() => {
+        if (accountDetails) {
+            setUsername(accountDetails.username);
+            setEmail(accountDetails.email);
+            setAboutAuthor(accountDetails.aboutAuthor)
         }
     }, [])
+
+    const updateAccount = async () => {
+        setIsLoading(true);
+        const data = {
+            userId: `${accountDetails._id}`,
+            username: username,
+            email: email,
+            aboutAuthor: aboutAuthor,
+        }
+        try {
+            const response = await updateUser(accountDetails._id, data);
+            console.log(response);
+            setAccountDetails(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            console.log(error);
+        }
+    }
 
     return (
         <>
@@ -53,14 +77,20 @@ function Settings(props) {
                                 required id="standard-required"
                                 label="Name"
                                 value={username}
-                                onChange={(e)=>setUsername(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
 
                             <TextField
                                 required id="standard-required"
                                 label="Email"
                                 value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+
+                            <TextField
+                                label="About Me"
+                                value={aboutAuthor}
+                                onChange={(e) => setAboutAuthor(e.target.value)}
                             />
 
                             <TextField
@@ -69,13 +99,16 @@ function Settings(props) {
                                 type="password"
                                 autoComplete="current-password"
                                 value={password}
-                                onChange={(e)=>setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                            <Button style={{backgroundColor: "#00d18b"}}>Save Changes</Button>
+                            <Button style={{ backgroundColor: "#00d18b" }} onClick={updateAccount}>Save Changes</Button>
                         </form>
                     </div>
                 </div>
                 <AuthorDetails />
+                {
+                    isLoading ? <Loading /> : null
+                }
             </div>
 
         </>

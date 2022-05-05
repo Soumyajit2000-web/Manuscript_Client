@@ -5,15 +5,18 @@ import { Button, Typography } from '@material-ui/core';
 import '../styles/register.scss';
 import { Link } from 'react-router-dom';
 import { registerUser } from '../services/auth';
+import Loading from '../components/common/Loading';
 
 function Register(props) {
     const { onToastOpen, onToastClose } = props;
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("")
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
 
     const handleRegister = async () => {
+        setIsLoading(true);
         const data = {
             username: userName,
             email: email,
@@ -23,6 +26,7 @@ function Register(props) {
         try {
             const response = await registerUser(data);
             console.log(response);
+            setIsLoading(false);
             navigate('/login');
             onToastOpen({
                 severity: "success",
@@ -33,6 +37,7 @@ function Register(props) {
             }, 5000)
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
             onToastOpen({
                 severity: "error",
                 message: "Something went wrong!!!"
@@ -83,7 +88,9 @@ function Register(props) {
             <Link to="/login" style={{ textDecoration: "none" }}>
                 <Button variant="contained" style={{ color: "white", backgroundColor: "#00d18b" }}>Login</Button>
             </Link>
-
+            {
+                isLoading ? <Loading /> : null 
+            }
         </div>
     )
 }

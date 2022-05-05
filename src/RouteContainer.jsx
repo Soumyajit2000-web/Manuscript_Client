@@ -9,6 +9,7 @@ import { Routes, Route } from 'react-router-dom'
 import Toast from './components/common/Toast';
 import Navbar from './components/Navbar';
 import { getUserDetails } from './services/users';
+import Loading from './components/common/Loading';
 
 const RouteContainer = (props) => {
     const { isLogin, setIsLogin } = props;
@@ -16,6 +17,7 @@ const RouteContainer = (props) => {
     const [toastSeverity, setToastSeverity] = useState("");
     const [toastMessage, setToastMesssage] = useState("");
     const [accountDetails, setAccountDetails] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     // functions to handle toasts
     const onToastOpen = (toastProps) => {
         const { severity, message } = toastProps;
@@ -32,12 +34,15 @@ const RouteContainer = (props) => {
 
     //Fetch account details
     const handleGetAccountDetails = async () => {
+        setIsLoading(true);
         try {
             let response = await getUserDetails(localStorage.getItem("Account-Id"));
             console.log(response.data);
             setAccountDetails(response.data);
+            setIsLoading(false);
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
             onToastOpen({
                 severity: "error",
                 message: "Something went wrong!!!"
@@ -54,8 +59,8 @@ const RouteContainer = (props) => {
         }
     }, [isLogin])
 
-    useEffect(()=>{
-        if(localStorage.getItem("Account-Id")){
+    useEffect(() => {
+        if (localStorage.getItem("Account-Id")) {
             setIsLogin(true)
         }
     }, [])
@@ -86,9 +91,17 @@ const RouteContainer = (props) => {
                     />
                 } />
                 <Route path="/write" element={<Write />} />
-                <Route path="/settings" element={<Settings accountDetails={accountDetails} />} />
+                <Route path="/settings" element={
+                    <Settings 
+                        accountDetails={accountDetails}
+                        setAccountDetails={setAccountDetails} 
+                    />
+                } />
                 <Route path="/post/:postId" element={<PostPage />} />
             </Routes>
+            {
+                isLoading ? <Loading /> : null
+            }
         </>
     )
 }
