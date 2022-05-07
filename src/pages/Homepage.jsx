@@ -1,11 +1,12 @@
-import React from 'react'
-// import PostCard from '../components/PostCard'
+import React, { useState, useEffect } from 'react'
 import PostCard from '../components/PostCardNew';
 import Cta from '../components/Cta';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import { Typography } from '@material-ui/core';
 import '../styles/homepage.scss'
+import { getAllCategories } from '../services/categories';
+import { getAllPosts } from '../services/posts';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,10 +21,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage(props) {
-
+    const [postsResponse, setPostsResponse] = useState([]);
+    const [categoryResponse, setCategoryResponse] = useState([]);
     const classes = useStyles();
 
-    const handleClick = () => {
+    const handleGetCategories = async() => {
+        try {
+            let response = await getAllCategories();
+            setCategoryResponse(response.data)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleGetAllPosts = async() => {
+        try {
+            let response = await getAllPosts();
+            setPostsResponse(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        handleGetCategories();
+        handleGetAllPosts();
+    }, [])
+
+    const handleCatClick = () => {
         console.info('You clicked the Chip.');
     };
 
@@ -40,12 +65,11 @@ function Homepage(props) {
                         DISCOVER MORE OF WHAT MATTERS TO YOU
                     </Typography>
                     <div className={classes.root}>
-                        <Chip label="Clickable Link" component="a" onClick={handleClick} clickable />
-                        <Chip label="Clickable Link" component="a" onClick={handleClick} clickable />
-                        <Chip label="Clickable Link" component="a" onClick={handleClick} clickable />
-                        <Chip label="Clickable Link" component="a" onClick={handleClick} clickable />
-                        <Chip label="Clickable Link" component="a" onClick={handleClick} clickable />
-
+                        {
+                            categoryResponse.map((category)=>{
+                                return <Chip label={category.name} component="a" onClick={handleCatClick} clickable />
+                            })
+                        }
                     </div>
                 </div>
 

@@ -4,7 +4,8 @@ import '../styles/write.scss';
 import { Button } from '@material-ui/core';
 import Loading from '../components/common/Loading';
 import { uploadImage } from '../services/imagesReq';
-import { addPost } from '../services/posts'
+import { addPost } from '../services/posts';
+import { useNavigate } from 'react-router-dom';
 
 function Write(props) {
     const { accountDetails } = props;
@@ -14,6 +15,8 @@ function Write(props) {
     const [postImageId, setPostImageId] = useState("");
     const [postImageBuffer, setPostImageBuffer] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [base64String, setBase64String] = useState("");
+    const navigate = useNavigate();
 
     const handlePostArticle = async () => {
         setIsLoading(true);
@@ -27,7 +30,8 @@ function Write(props) {
         try {
             let response = await addPost(data);
             console.log(response.data);
-            setIsLoading(false) 
+            setIsLoading(false);
+            navigate('/'); 
         }catch(error){
             console.log(error);
             setIsLoading(false) 
@@ -57,12 +61,30 @@ function Write(props) {
         if (postImg) {
             handlePostPic();
         }
-    }, [postImg])
+    }, [postImg]);
+
+    //reading img buffer
+    const convertBufferToBase64 = () => {
+        let binary = '';
+        let bytes = new Uint8Array(postImageBuffer);
+        let len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = window.btoa(binary);
+        setBase64String(base64);
+    }
+
+    useEffect(() => {
+        if (postImageBuffer) {
+            convertBufferToBase64();
+        }
+    }, [postImageBuffer])
 
     return (
         <div className="write">
             <div className="writeImg">
-                <img src="https://media.istockphoto.com/photos/freedom-chains-that-transform-into-birds-charge-concept-picture-id1322104312?b=1&k=20&m=1322104312&s=170667a&w=0&h=VQyPkFkMKmo0e4ixjhiOLjiRs_ZiyKR_4SAsagQQdkk=" alt="" />
+                <img src={base64String !== "" ? `data:image/png;base64,${base64String}` : ""} alt="" />
             </div>
             <form className="writeForm">
                 <div className="writeFormGroup">

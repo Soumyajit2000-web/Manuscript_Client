@@ -4,7 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import '../styles/postCard.scss'
 
 
-function PostCard() {
+function PostCard(props) {
     return (
         <div>
             <main className="card">
