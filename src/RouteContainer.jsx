@@ -10,14 +10,26 @@ import Toast from './components/common/Toast';
 import Navbar from './components/Navbar';
 import { getUserDetails } from './services/users';
 import Loading from './components/common/Loading';
+import { getImage } from './services/imagesReq';
 
 const RouteContainer = (props) => {
     const { isLogin, setIsLogin } = props;
     const [isToastOpen, setIsToastOpen] = useState(false);
     const [toastSeverity, setToastSeverity] = useState("");
     const [toastMessage, setToastMesssage] = useState("");
-    const [accountDetails, setAccountDetails] = useState();
+    const [accountDetails, setAccountDetails] = useState({
+        aboutAuthor: "",
+        createdAt: "",
+        email: "",
+        profilepic: "",
+        updatedAt: "",
+        username: "",
+        __v: 0,
+        _id: ""
+    });
     const [isLoading, setIsLoading] = useState(false);
+    const [profilePicBuffer, setProfilePicBuffer] = useState();
+
     // functions to handle toasts
     const onToastOpen = (toastProps) => {
         const { severity, message } = toastProps;
@@ -65,9 +77,35 @@ const RouteContainer = (props) => {
         }
     }, [])
 
+    //Fetch profilePic
+    const handleGetProfilePic = async () => {
+        if (accountDetails.profilepic !== "") {
+            setIsLoading(true);
+            try {
+                const resp = await getImage(accountDetails.profilepic);
+                setProfilePicBuffer(resp.data.image.data.data);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error);
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        if (!profilePicBuffer) {
+            handleGetProfilePic();
+        }
+    }, [accountDetails])
+
     return (
         <>
-            <Navbar isLogin={isLogin} setIsLogin={setIsLogin} />
+            <Navbar 
+                isLogin={isLogin} 
+                setIsLogin={setIsLogin} 
+                profilePicBuffer={profilePicBuffer}
+            />
             <Toast
                 isToastOpen={isToastOpen}
                 toastSeverity={toastSeverity}
@@ -90,11 +128,14 @@ const RouteContainer = (props) => {
                         setIsLogin={setIsLogin}
                     />
                 } />
-                <Route path="/write" element={<Write />} />
+                <Route path="/write" element={<Write accountDetails={accountDetails} />} />
                 <Route path="/settings" element={
-                    <Settings 
+                    <Settings
                         accountDetails={accountDetails}
-                        setAccountDetails={setAccountDetails} 
+                        setAccountDetails={setAccountDetails}
+                        setProfilePicBuffer={setProfilePicBuffer}
+                        profilePicBuffer={profilePicBuffer}
+
                     />
                 } />
                 <Route path="/post/:postId" element={<PostPage />} />

@@ -8,6 +8,7 @@ import { Button } from '@material-ui/core';
 import Loading from '../components/common/Loading';
 import '../styles/settings.scss'
 import { updateUser } from '../services/users';
+import { uploadImage } from '../services/imagesReq';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,19 +25,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
-    const { accountDetails, setAccountDetails } = props;
+    const { accountDetails, setAccountDetails, profilePicBuffer, setProfilePicBuffer } = props;
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState("");
     const [aboutAuthor, setAboutAuthor] = useState("");
+    const [profilePic, setProfilePic] = useState();
+    const [profilePicId, setProfilePicId] = useState("");
+    const [base64String, setBase64String] = useState("");
     const classes = useStyles();
 
     useEffect(() => {
         if (accountDetails) {
             setUsername(accountDetails.username);
             setEmail(accountDetails.email);
-            setAboutAuthor(accountDetails.aboutAuthor)
+            setAboutAuthor(accountDetails.aboutAuthor);
+            setProfilePicId(accountDetails.profilepic);
         }
     }, [])
 
@@ -47,6 +52,7 @@ function Settings(props) {
             username: username,
             email: email,
             aboutAuthor: aboutAuthor,
+            profilepic: profilePicId
         }
         try {
             const response = await updateUser(accountDetails._id, data);
@@ -59,16 +65,56 @@ function Settings(props) {
         }
     }
 
+    const handleProfilePic = async () => {
+        setIsLoading(true);
+        let formData = new FormData();
+        formData.append("name", "ms-test");
+        formData.append("file", profilePic);
+        try {
+            let response = await uploadImage(formData);
+            console.log(response.data);
+            setProfilePicId(response.data._id);
+            setProfilePicBuffer(response.data.image.data.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (profilePic) {
+            handleProfilePic();
+        }
+    }, [profilePic])
+
+    const convertBufferToBase64 = () => {
+        let binary = '';
+        let bytes = new Uint8Array(profilePicBuffer);
+        let len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = window.btoa(binary);
+        setBase64String(base64);
+    }
+
+    useEffect(() => {
+        if (profilePicBuffer) {
+            convertBufferToBase64();
+        }
+    }, [profilePicBuffer])
+
     return (
         <>
             <div className="userProfie">
                 <div className="updateProfile">
                     <div className="profilePic">
-                        <Avatar alt="Name" src="" className={classes.large} />
+                        <Avatar alt="Name" src={`data:image/png;base64,${base64String}`} className={classes.large} />
                         <label for="addProfilePic">
                             <AddCircleRoundedIcon />
                         </label>
-                        <input type="file" id="addProfilePic" style={{ display: "none" }} />
+                        <input type="file" id="addProfilePic" onChange={(e) => setProfilePic(e.target.files[0])} style={{ display: "none" }} />
                     </div>
 
                     <div className="profileInfo">

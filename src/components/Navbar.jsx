@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Navbar.scss';
 import logo from '../images/onlinelogomaker-051321-1920-2225.png';
 import { Button, Avatar } from '@material-ui/core';
@@ -10,14 +10,32 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 function Navbar(props) {
-  const { isLogin, setIsLogin } = props;
+  const { isLogin, setIsLogin, profilePicBuffer } = props;
+  const [base64String, setBase64String] = useState("");
   const navigate = useNavigate();
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     setIsLogin(false);
     localStorage.removeItem("Account-Id");
     navigate('/')
   }
+
+  const convertBufferToBase64 = () => {
+    let binary = '';
+    let bytes = new Uint8Array(profilePicBuffer);
+    let len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64 = window.btoa(binary);
+    setBase64String(base64);
+  }
+
+  useEffect(() => {
+    if (profilePicBuffer) {
+      convertBufferToBase64();
+    }
+  }, [profilePicBuffer])
 
   if (isLogin) {
     return (
@@ -64,7 +82,7 @@ function Navbar(props) {
               <li>
                 <Link to="/settings">
                   <Button>
-                    <Avatar alt="Name" src="" />
+                    <Avatar alt="Name" src={`data:image/png;base64,${base64String}`} />
                   </Button>
                 </Link>
 
