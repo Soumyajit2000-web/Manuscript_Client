@@ -127,7 +127,7 @@ function Navbar(props) {
 
             <li>
               <Link to="/">
-                <Button onClick={() => props.setIsLogin(false)}>
+                <Button onClick={handleLogout}>
                   <ExitToAppOutlinedIcon />
                 </Button>
               </Link>

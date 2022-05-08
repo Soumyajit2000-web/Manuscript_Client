@@ -151,7 +151,9 @@ function Settings(props) {
                         </form>
                     </div>
                 </div>
-                <AuthorDetails />
+                <AuthorDetails
+                    userId={accountDetails._id} 
+                />
                 {
                     isLoading ? <Loading /> : null
                 }

@@ -70,7 +70,9 @@ function PostPage() {
 
     return (
         <div className="postPageContainer">
-            <AuthorDetails />
+            <AuthorDetails 
+                userId={postData.userId}
+            />
             <div className="postContent">
                 <div className="postImage">
                     <img src={`data:image/png;base64,${postImgBase64}`} alt="" />

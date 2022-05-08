@@ -111,8 +111,6 @@ function PostCard(props) {
                     </p>
 
                     <div className="avatar">
-
-                        {/* <img src="images/avatar-michelle.jpg" alt="Michelle" className="avatar_av-img"/> */}
                         <span className='avatar_av-img'><Avatar src={`data:image/png;base64,${profileBase64String}`} alt={username} /></span>
                         <div className="avatar_info">
 
