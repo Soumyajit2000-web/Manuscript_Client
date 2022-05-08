@@ -7,6 +7,8 @@ import { Typography } from '@material-ui/core';
 import '../styles/homepage.scss'
 import { getAllCategories } from '../services/categories';
 import { getAllPosts } from '../services/posts';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +26,9 @@ function Homepage(props) {
     const [postsResponse, setPostsResponse] = useState([]);
     const [categoryResponse, setCategoryResponse] = useState([]);
     const classes = useStyles();
+    const navigate = useNavigate();
 
-    const handleGetCategories = async() => {
+    const handleGetCategories = async () => {
         try {
             let response = await getAllCategories();
             setCategoryResponse(response.data)
@@ -34,7 +37,7 @@ function Homepage(props) {
         }
     }
 
-    const handleGetAllPosts = async() => {
+    const handleGetAllPosts = async () => {
         try {
             let response = await getAllPosts();
             setPostsResponse(response.data);
@@ -53,10 +56,10 @@ function Homepage(props) {
     };
 
     return (
-        <>  
+        <>
             {
 
-                props.isLogin ? null :  <Cta />
+                props.isLogin ? null : <Cta />
 
             }
             <div className="postContainer">
@@ -66,7 +69,7 @@ function Homepage(props) {
                     </Typography>
                     <div className={classes.root}>
                         {
-                            categoryResponse.map((category)=>{
+                            categoryResponse.map((category) => {
                                 return <Chip label={category.name} component="a" onClick={handleCatClick} clickable />
                             })
                         }
@@ -80,11 +83,22 @@ function Homepage(props) {
                     </Typography>
 
                     <div className="postWrapper">
-                        <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard />
-                        <PostCard/>
+                        {
+                            postsResponse.map((post) => {
+                                return (
+                                    <div onClick={() => navigate(`/post/${post._id}`)}>
+                                        <PostCard
+                                            title={post.title}
+                                            desc={post.desc}
+                                            photo={post.photo}
+                                            username={post.username}
+                                            userId={post.userId}
+                                            date={post.createdAt}
+                                        />
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
 
                 </div>

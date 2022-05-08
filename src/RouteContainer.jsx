@@ -89,12 +89,14 @@ const RouteContainer = (props) => {
                 setIsLoading(false);
                 console.log(error);
             }
+        } else if(accountDetails.profilepic === "") {
+            setProfilePicBuffer([]);
         }
 
     }
 
     useEffect(() => {
-        if (!profilePicBuffer) {
+        if (accountDetails) {
             handleGetProfilePic();
         }
     }, [accountDetails])
@@ -105,6 +107,7 @@ const RouteContainer = (props) => {
                 isLogin={isLogin} 
                 setIsLogin={setIsLogin} 
                 profilePicBuffer={profilePicBuffer}
+                accountDetails={accountDetails}
             />
             <Toast
                 isToastOpen={isToastOpen}

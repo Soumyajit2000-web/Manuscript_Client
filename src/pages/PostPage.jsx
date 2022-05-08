@@ -1,37 +1,99 @@
 import { Button, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import AuthorDetails from '../components/AuthorDetails'
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import '../styles/postPage.scss'
+import '../styles/postPage.scss';
+import { useParams } from 'react-router-dom';
+import { getPostDetails } from '../services/posts';
+import { getImage } from '../services/imagesReq';
+import Loading from '../components/common/Loading';
 
 function PostPage() {
+    const { postId } = useParams();
+    const [postData, setPostData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [postImgBuffer, setPostImgBuffer] = useState();
+    const [postImgBase64, setPostImgBase64] = useState("")
+    //get post data from parameters
+    const handleGetPostData = async () => {
+        setIsLoading(true)
+        try {
+            const response = await getPostDetails(postId);
+            setPostData(response.data);
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        handleGetPostData()
+    }, [postId]);
+
+    // get image buffer
+    const getImageBuffer = async (id) => {
+        try {
+            const bufferResponse = await getImage(id);
+            return bufferResponse.data.image.data.data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(async () => {
+        if (postData) {
+            const imgBuffer = await getImageBuffer(postData.photo);
+            setPostImgBuffer(imgBuffer);
+        }
+    }, [postData])
+
+    //converting image to base64
+    const convertBufferToBase64 = (picBuffer) => {
+        let binary = '';
+        let bytes = new Uint8Array(picBuffer);
+        let len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = window.btoa(binary);
+        return base64;
+    }
+
+    useEffect(() => {
+        if (postImgBuffer) {
+            const picBase64 = convertBufferToBase64(postImgBuffer);
+            setPostImgBase64(picBase64);
+        }
+    }, [postImgBuffer])
+
     return (
         <div className="postPageContainer">
             <AuthorDetails />
             <div className="postContent">
                 <div className="postImage">
-                    <img src="https://media.istockphoto.com/photos/freedom-chains-that-transform-into-birds-charge-concept-picture-id1322104312?b=1&k=20&m=1322104312&s=170667a&w=0&h=VQyPkFkMKmo0e4ixjhiOLjiRs_ZiyKR_4SAsagQQdkk=" alt="" />
+                    <img src={`data:image/png;base64,${postImgBase64}`} alt="" />
                 </div>
                 <div className="postTitle">
-                    <Typography variant="h6"> Title </Typography>
+                    <Typography variant="h6"> {postData.title} </Typography>
                     <div className="titleIcons">
-                        <Button style={{borderRadius: "100px", minWidth: "45px", minHeight: "45px"}}><EditRoundedIcon /></Button>
-                        <Button style={{borderRadius: "100px", minWidth: "45px", minHeight: "45px"}}><DeleteIcon /></Button>
+                        <Button style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px", display: "none" }}><EditRoundedIcon /></Button>
+                        <Button style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px", display: "none" }}><DeleteIcon /></Button>
                     </div>
                 </div>
                 <div className="postDetails">
-                    <Typography variant="h6" style={{color: "rgba(0, 0, 0, 0.54)", fontWeight: "400"}}> Author Name </Typography>
+                    <Typography variant="h6" style={{ color: "rgba(0, 0, 0, 0.54)", fontWeight: "400" }}> {postData.username} </Typography>
                 </div>
                 <div className="postBody">
-                    <Typography variant="body2" style={{color: "rgba(0, 0, 0, 0.54)"}}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum dolore ad cum quia, quaerat deserunt adipisci perspiciatis quas debitis accusantium? Et asperiores nulla inventore magni, dignissimos fugiat nisi voluptatibus earum optio, numquam voluptates enim ullam! Unde deserunt sapiente minima voluptatem eveniet facere cum laudantium sint error quasi sunt ab sit consequatur, magnam aperiam repellendus dolore nobis. Fuga, cupiditate dolor id rerum temporibus a tempore necessitatibus saepe ipsa. Eveniet, ut dolore incidunt pariatur rem facilis recusandae. Illum placeat corrupti officiis soluta, sint voluptatem consequuntur optio, ab laudantium cumque dicta iste et ea quo cum tempora. Excepturi voluptatum accusamus debitis quas.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum dolore ad cum quia, quaerat deserunt adipisci perspiciatis quas debitis accusantium? Et asperiores nulla inventore magni, dignissimos fugiat nisi voluptatibus earum optio, numquam voluptates enim ullam! Unde deserunt sapiente minima voluptatem eveniet facere cum laudantium sint error quasi sunt ab sit consequatur, magnam aperiam repellendus dolore nobis. Fuga, cupiditate dolor id rerum temporibus a tempore necessitatibus saepe ipsa. Eveniet, ut dolore incidunt pariatur rem facilis recusandae. Illum placeat corrupti officiis soluta, sint voluptatem consequuntur optio, ab laudantium cumque dicta iste et ea quo cum tempora. Excepturi voluptatum accusamus debitis quas.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum dolore ad cum quia, quaerat deserunt adipisci perspiciatis quas debitis accusantium? Et asperiores nulla inventore magni, dignissimos fugiat nisi voluptatibus earum optio, numquam voluptates enim ullam! Unde deserunt sapiente minima voluptatem eveniet facere cum laudantium sint error quasi sunt ab sit consequatur, magnam aperiam repellendus dolore nobis. Fuga, cupiditate dolor id rerum temporibus a tempore necessitatibus saepe ipsa. Eveniet, ut dolore incidunt pariatur rem facilis recusandae. Illum placeat corrupti officiis soluta, sint voluptatem consequuntur optio, ab laudantium cumque dicta iste et ea quo cum tempora. Excepturi voluptatum accusamus debitis quas.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum dolore ad cum quia, quaerat deserunt adipisci perspiciatis quas debitis accusantium? Et asperiores nulla inventore magni, dignissimos fugiat nisi voluptatibus earum optio, numquam voluptates enim ullam! Unde deserunt sapiente minima voluptatem eveniet facere cum laudantium sint error quasi sunt ab sit consequatur, magnam aperiam repellendus dolore nobis. Fuga, cupiditate dolor id rerum temporibus a tempore necessitatibus saepe ipsa. Eveniet, ut dolore incidunt pariatur rem facilis recusandae. Illum placeat corrupti officiis soluta, sint voluptatem consequuntur optio, ab laudantium cumque dicta iste et ea quo cum tempora. Excepturi voluptatum accusamus debitis quas.
+                    <Typography variant="body2" style={{ color: "rgba(0, 0, 0, 0.54)" }}>
+                        {postData.desc}
                     </Typography>
                 </div>
             </div>
+            {
+                isLoading ? <Loading /> : null
+            }
         </div>
     )
 }

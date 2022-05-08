@@ -1,38 +1,123 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ShareIcon from '@material-ui/icons/Share';
 import Avatar from '@material-ui/core/Avatar';
-import '../styles/postCard.scss'
+import '../styles/postCard.scss';
+import { getImage } from '../services/imagesReq';
+import { getUserDetails } from '../services/users';
 
 
 function PostCard(props) {
+    const { title, desc, photo, username, userId, date } = props;
+    const [postPicBuffer, setPostPicBuffer] = useState();
+    const [profilePicBuffer, setProfilePicBuffer] = useState();
+    const [postBase64String, setPostBase64String] = useState();
+    const [profileBase64String, setProfileBase64String] = useState();
+    const d = new Date(date.slice(0,10))
+
+    const getImageBuffer = async (id) => {
+        try {
+            const bufferResponse = await getImage(id);
+            return bufferResponse.data.image.data.data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const getProfileInfo = async () => {
+        try {
+            const response = await getUserDetails(userId);
+            const profileBuffer = await getImageBuffer(response.data.profilepic)
+            setProfilePicBuffer(profileBuffer);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getProfileInfo();
+    }, [userId]);
+
+    const handlePostImage = async () => {
+        try {
+            const postImageBuffer = await getImageBuffer(photo);
+            setPostPicBuffer(postImageBuffer);
+        }catch(err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        handlePostImage();
+    }, [photo])
+
+    //converting image to base64
+
+    const convertBufferToBase64 = (picBuffer) => {
+        let binary = '';
+        let bytes = new Uint8Array(picBuffer);
+        let len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = window.btoa(binary);
+        return base64;
+    }
+
+    useEffect(() => {
+        if(postPicBuffer){
+          const pic64 =  convertBufferToBase64(postPicBuffer);
+          setPostBase64String(pic64);
+        }
+    }, [postPicBuffer]);
+
+    useEffect(()=>{
+        if(profilePicBuffer){
+            const pic64 = convertBufferToBase64(profilePicBuffer);
+            setProfileBase64String(pic64);
+        }
+    },[profilePicBuffer])
+
+    //Trim String
+    const trimTitle = (str) => {
+        let length = 70;
+        if(str!==null){
+            return str.length > length ? str.substring(0, length - 3) + "..." : str;
+        }
+    }
+
+    const trimDesc = (str) => {
+        let length = 100;
+        if(str!==null){
+            return str.length > length ? str.substring(0, length - 3) + "..." : str;
+        }
+    }
+
     return (
         <div>
             <main className="card">
 
                 <div className="card_background">
-                    <img src="https://media.istockphoto.com/photos/freedom-chains-that-transform-into-birds-charge-concept-picture-id1322104312?b=1&k=20&m=1322104312&s=170667a&w=0&h=VQyPkFkMKmo0e4ixjhiOLjiRs_ZiyKR_4SAsagQQdkk=" className='card-img' alt="Drawers" />
+                    <img src={`data:image/png;base64,${postBase64String}`} className='card-img' alt="Drawers" />
                 </div>
 
                 <div className="content">
 
                     <h3 className="content_intro">
-                        Shift the overall look and feel by adding these wonderful
-                        touches to furniture in your home
+                        {trimTitle(title)}
                     </h3>
 
                     <p className="content_paragraph">
-                        Ever been in a room and felt like something was missing? Perhaps
-                        it felt slightly bare and uninviting. I’ve got some simple tips to help you make any room feel complete.
+                        {trimDesc(desc)}
                     </p>
 
                     <div className="avatar">
 
                         {/* <img src="images/avatar-michelle.jpg" alt="Michelle" className="avatar_av-img"/> */}
-                        <span className='avatar_av-img'><Avatar alt="Remy Sharp" /></span>
+                        <span className='avatar_av-img'><Avatar src={`data:image/png;base64,${profileBase64String}`} alt={username} /></span>
                         <div className="avatar_info">
 
-                            <div className="_info_name">Michelle Appleton</div>
-                            <div className="_info_date">28 Jun 2020</div>
+                            <div className="_info_name">{username}</div>
+                            <div className="_info_date">{d.toDateString().slice(4)}</div>
 
                         </div>
 

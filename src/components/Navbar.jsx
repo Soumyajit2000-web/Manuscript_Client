@@ -10,7 +10,7 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 function Navbar(props) {
-  const { isLogin, setIsLogin, profilePicBuffer } = props;
+  const { isLogin, setIsLogin, profilePicBuffer, accountDetails } = props;
   const [base64String, setBase64String] = useState("");
   const navigate = useNavigate();
 
@@ -80,9 +80,9 @@ function Navbar(props) {
               </li>
 
               <li>
-                <Link to="/settings">
+                <Link to="/settings" style={{textDecoration: "none" }}>
                   <Button>
-                    <Avatar alt="Name" src={`data:image/png;base64,${base64String}`} />
+                    <Avatar alt={accountDetails.username} src={`data:image/png;base64,${base64String}`} />
                   </Button>
                 </Link>
 
