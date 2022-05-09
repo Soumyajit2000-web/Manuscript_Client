@@ -6,23 +6,39 @@ import Loading from '../components/common/Loading';
 import { uploadImage } from '../services/imagesReq';
 import { addPost } from '../services/posts';
 import { useNavigate } from 'react-router-dom';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import parse from 'html-react-parser';
 
 function Write(props) {
     const { accountDetails } = props;
     const [title, setTitle] = useState("");
-    const [postDesc, setPostDesc] = useState("");
     const [postImg, setPostImg] = useState();
     const [postImageId, setPostImageId] = useState("");
     const [postImageBuffer, setPostImageBuffer] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [base64String, setBase64String] = useState("");
+    const [showPreview, setShowPreview] = useState(false);
     const navigate = useNavigate();
+    const [postDescNew, setPostDescNew] = useState(() => EditorState.createEmpty());
+    const [postDescFinal, setPostDescFinal] = useState("");
+    let editorState = EditorState.createEmpty();
+    const onEditorStateChange = (editorState) => {
+        setPostDescNew(editorState);
+    }
+    useEffect(() => {
+        let raw = convertToRaw(postDescNew.getCurrentContent());
+        let html = draftToHtml(raw);
+        setPostDescFinal(html);
+    }, [postDescNew])
 
     const handlePostArticle = async () => {
         setIsLoading(true);
         const data = {
             title: title,
-            desc: postDesc,
+            desc: postDescFinal,
             photo: postImageId,
             username: accountDetails.username,
             userId: accountDetails._id
@@ -31,10 +47,10 @@ function Write(props) {
             let response = await addPost(data);
             console.log(response.data);
             setIsLoading(false);
-            navigate('/'); 
-        }catch(error){
+            navigate('/');
+        } catch (error) {
             console.log(error);
-            setIsLoading(false) 
+            setIsLoading(false)
         }
 
     }
@@ -100,18 +116,33 @@ function Write(props) {
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
-                <div className="writeFormGroup">
-                    <textarea
-                        className="writeInput writeText"
-                        placeholder="Tell your story..."
-                        type="text"
-                        autoFocus={true}
-                        onChange={(e) => setPostDesc(e.target.value)}
-                    />
+                <div className='write-desc-input'>
+                    {
+                        showPreview ? (
+                            <div className="write-preview">
+                                {parse(postDescFinal)}
+                            </div>
+                        ) : (
+                            <Editor
+                                editorState={postDescNew}
+                                wrapperClassName="wrapper-class"
+                                editorClassName="editor-class"
+                                toolbarClassName="toolbar-class"
+                                onEditorStateChange={onEditorStateChange}
+                            />
+                        )
+                    }
+
                 </div>
-                <Button variant="contained" onClick={handlePostArticle} style={{ backgroundColor: "teal", color: "white" }}>
-                    Publish
-                </Button>
+                <div className="write-btn-group">
+                    <Button variant="contained" onClick={handlePostArticle} style={{ backgroundColor: "teal", color: "white" }}>
+                        Publish
+                    </Button>
+                    <Button variant="contained" onClick={()=>setShowPreview(!showPreview)} style={{ backgroundColor: "#f50057", color: "white" }}>
+                        { showPreview ? "Edit" : "Preview" }
+                    </Button>
+                </div>
+
             </form>
             {
                 isLoading ? <Loading /> : null

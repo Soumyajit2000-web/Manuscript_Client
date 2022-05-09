@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { getPostDetails } from '../services/posts';
 import { getImage } from '../services/imagesReq';
 import Loading from '../components/common/Loading';
+import parse from 'html-react-parser';
 
 function PostPage() {
     const { postId } = useParams();
@@ -89,7 +90,7 @@ function PostPage() {
                 </div>
                 <div className="postBody">
                     <Typography variant="body2" style={{ color: "rgba(0, 0, 0, 0.54)" }}>
-                        {postData.desc}
+                        {postData.desc !==undefined ? parse(postData.desc) : ""}
                     </Typography>
                 </div>
             </div>

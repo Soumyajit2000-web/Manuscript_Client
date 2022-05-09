@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import '../styles/postCard.scss';
 import { getImage } from '../services/imagesReq';
 import { getUserDetails } from '../services/users';
+import parse from 'html-react-parser';
 
 
 function PostCard(props) {

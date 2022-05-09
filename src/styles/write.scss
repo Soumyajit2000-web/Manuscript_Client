@@ -15,7 +15,6 @@
     flex-direction: column;
     /* border: 2px solid red; */
     gap: 10px;
-    width: 100vw;
     align-items: center;
     justify-content: center;
 }
@@ -70,13 +69,48 @@
     border-radius: 10px;
 }
 
+.write-btn-group{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.write-desc-input{
+    width: 100%;
+    .write-preview{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .rdw-editor-wrapper{
+        border: 1px solid black;
+        width: 90%;
+        margin: 0 auto;
+        min-height: 60vh;
+    }
+    .rdw-editor-toolbar{
+        border-bottom: 1px solid black;
+    }
+    .rdw-editor-main{
+        padding: 0px 6px;
+        .public-DraftStyleDefault-ltr{
+            margin: 0;
+        }
+    }
+}
+
 
 @media screen and (max-width: 768px){
     .write{
         padding-bottom: 4rem;
+        padding: 4rem 0rem;
     }
 
     .writeText{
         height: 50vh;
     }
+
+    .write-btn-group{
+        flex-direction: column;
+    }
+
 }
