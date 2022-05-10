@@ -13,7 +13,8 @@ function PostCard(props) {
     const [profilePicBuffer, setProfilePicBuffer] = useState();
     const [postBase64String, setPostBase64String] = useState();
     const [profileBase64String, setProfileBase64String] = useState();
-    const d = new Date(date.slice(0,10))
+    const d = new Date(date.slice(0,10));
+    const [strippedDesc, setStrippedDesc] = useState("");
 
     const getImageBuffer = async (id) => {
         try {
@@ -37,6 +38,8 @@ function PostCard(props) {
     useEffect(() => {
         getProfileInfo();
     }, [userId]);
+
+
 
     const handlePostImage = async () => {
         try {
@@ -93,6 +96,13 @@ function PostCard(props) {
         }
     }
 
+    //convert html string to cleanText
+    const convertHtmlToString = (htmlStr) => {
+        let cleanText = htmlStr.replace(/<\/?[^>]+(>|$)/g, "");
+        let trimText = trimDesc(cleanText);
+        return trimText;
+    }
+
     return (
         <div>
             <main className="card">
@@ -108,7 +118,7 @@ function PostCard(props) {
                     </h3>
 
                     <p className="content_paragraph">
-                        {trimDesc(desc)}
+                        {convertHtmlToString(desc)}
                     </p>
 
                     <div className="avatar">
