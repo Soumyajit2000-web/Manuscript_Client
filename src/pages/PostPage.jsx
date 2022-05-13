@@ -89,7 +89,7 @@ function PostPage() {
                     <Typography variant="h6" style={{ color: "rgba(0, 0, 0, 0.54)", fontWeight: "400" }}> {postData.username} </Typography>
                 </div>
                 <div className="postBody">
-                    <Typography variant="body2" style={{ color: "rgba(0, 0, 0, 0.54)" }}>
+                    <Typography variant="body2">
                         {postData.desc !==undefined ? parse(postData.desc) : ""}
                     </Typography>
                 </div>

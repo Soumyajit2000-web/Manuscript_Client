@@ -94,6 +94,7 @@ function Homepage(props) {
                                             username={post.username}
                                             userId={post.userId}
                                             date={post.createdAt}
+                                            categories={post.categories}
                                         />
                                     </div>
                                 )

@@ -4,17 +4,14 @@ import Avatar from '@material-ui/core/Avatar';
 import '../styles/postCard.scss';
 import { getImage } from '../services/imagesReq';
 import { getUserDetails } from '../services/users';
-import parse from 'html-react-parser';
-
 
 function PostCard(props) {
-    const { title, desc, photo, username, userId, date } = props;
+    const { title, desc, photo, username, userId, date, categories } = props;
     const [postPicBuffer, setPostPicBuffer] = useState();
     const [profilePicBuffer, setProfilePicBuffer] = useState();
     const [postBase64String, setPostBase64String] = useState();
     const [profileBase64String, setProfileBase64String] = useState();
     const d = new Date(date.slice(0,10));
-    const [strippedDesc, setStrippedDesc] = useState("");
 
     const getImageBuffer = async (id) => {
         try {
@@ -112,6 +109,16 @@ function PostCard(props) {
                 </div>
 
                 <div className="content">
+
+                    <div className="card-category">
+                        {
+                            categories.slice(0, 1).map((cat)=>{
+                                return(
+                                    <p>{cat}</p>
+                                )
+                            })
+                        }
+                    </div>
 
                     <h3 className="content_intro">
                         {trimTitle(title)}

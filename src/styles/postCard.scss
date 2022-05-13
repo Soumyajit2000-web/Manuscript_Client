@@ -10,13 +10,12 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  -webkit-box-shadow: 4px 4px 50px #9eafc2;
-          box-shadow: 4px 4px 50px #9eafc2;
+  box-shadow: 5px 5px 10px #cecece, -5px -5px 10px #ffffff;
 }
 
 .card_background {
@@ -27,7 +26,7 @@
   width: 100%;
 }
 
-.card-img{
+.card-img {
   height: 100%;
   width: 100%;
 }
@@ -40,17 +39,28 @@
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   margin-top: auto;
   background-color: #fff;
   border-radius: 0px 0px 10px 10px;
 }
 
+.card-category {
+  margin: 10px 30px;
+}
+
+.card-category p {
+  background-color: #c2c2c5;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 50px;
+}
+
 .card .content_intro {
   color: #48556a;
   font-size: 15px;
-  margin: 40px 30px 20px 30px;
+  margin: 10px 30px;
 }
 
 .card .content_paragraph {
@@ -67,8 +77,8 @@
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .card .content .avatar_av-img {
@@ -96,7 +106,7 @@
   display: -ms-grid;
   display: grid;
   margin-left: auto;
-  background-color: #ecf2f8;
+  // background-color: #ecf2f8;
   border-radius: 50%;
   z-index: 1;
   cursor: pointer;
@@ -105,7 +115,7 @@
 .card .content .avatar_share-img .icon-share {
   margin: auto;
   -webkit-filter: invert(51%) sepia(53%) saturate(201%) hue-rotate(174deg) brightness(87%) contrast(80%);
-          filter: invert(51%) sepia(53%) saturate(201%) hue-rotate(174deg) brightness(87%) contrast(80%);
+  filter: invert(51%) sepia(53%) saturate(201%) hue-rotate(174deg) brightness(87%) contrast(80%);
 }
 
 .active {
@@ -114,18 +124,18 @@
   height: 70px;
   bottom: 0;
   -webkit-transform: translateY(100%);
-          transform: translateY(100%);
+  transform: translateY(100%);
   background-color: #48556a;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   padding: 0 30px;
   border-radius: 0 0 10px 10px;
-  -webkit-transition: all .3s;
-  transition: all .3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .active_share {
@@ -149,7 +159,7 @@
 
 .activated {
   -webkit-transform: translateY(0);
-          transform: translateY(0);
+  transform: translateY(0);
 }
 
 .bg-color {
@@ -158,19 +168,19 @@
 
 .bg-color .icon-share {
   -webkit-filter: invert(98%) sepia(0%) saturate(10%) hue-rotate(157deg) brightness(102%) contrast(103%) !important;
-          filter: invert(98%) sepia(0%) saturate(10%) hue-rotate(157deg) brightness(102%) contrast(103%) !important;
+  filter: invert(98%) sepia(0%) saturate(10%) hue-rotate(157deg) brightness(102%) contrast(103%) !important;
 }
 
 @media screen and (min-width: 800px) {
   .active {
     opacity: 0;
     -webkit-transform: translateY(100%) scale(0.1);
-            transform: translateY(100%) scale(0.1);
+    transform: translateY(100%) scale(0.1);
     width: 248px;
     height: 56px;
     -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     border-radius: 10px;
     padding: 0;
     right: -67px;
@@ -188,7 +198,7 @@
   }
   .activated {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -200,12 +210,12 @@
     height: 213px;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
     overflow: visible;
   }
 
-  .card-img{
+  .card-img {
     height: auto;
   }
   .card_background {
@@ -226,7 +236,7 @@
   }
   .card .content_intro {
     font-size: 18px;
-    margin: 40px 80px 20px 40px;
+    margin: 0px 80px 10px 40px;
   }
   .card .content_paragraph {
     font-size: 14px;
