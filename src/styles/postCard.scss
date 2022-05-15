@@ -47,14 +47,15 @@
 }
 
 .card-category {
-  margin: 10px 30px;
+  margin: 5px 30px;
 }
 
 .card-category p {
-  background-color: #c2c2c5;
+  background-color: #e0e0e0;
   width: fit-content;
   padding: 5px 10px;
   border-radius: 50px;
+  margin: 0;
 }
 
 .card .content_intro {
@@ -207,7 +208,7 @@
   .card {
     width: 800px;
     // min-height: fit-content;
-    height: 213px;
+    height: 222px;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
@@ -236,7 +237,7 @@
   }
   .card .content_intro {
     font-size: 18px;
-    margin: 0px 80px 10px 40px;
+    margin: 0px 80px 0px 40px;
   }
   .card .content_paragraph {
     font-size: 14px;

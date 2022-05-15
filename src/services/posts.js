@@ -15,15 +15,15 @@ export const addPost = async (postData) => {
     return await tempApi.post('/posts/', postData);
 }
 
-//username is required to be passed in postData
+//userId is required to be passed in postData
 export const updatePost = async (postId, postData) => {
     const tempApi = apiInstance();
     return await tempApi.put(`/posts/${postId}`, postData)
 }
 
-//username is required to be passed in postData
+//userId is required to be passed in postData
 export const deletePost = async (postId, postData) => {
     const tempApi = apiInstance();
-    return await tempApi.delete(`/posts/${postId}`, postData)
+    return await tempApi.delete(`/posts/${postId}`, {data: postData})
 }
 

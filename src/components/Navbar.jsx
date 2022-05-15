@@ -10,13 +10,23 @@ import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 function Navbar(props) {
-  const { isLogin, setIsLogin, profilePicBuffer, accountDetails } = props;
+  const { isLogin, setIsLogin, profilePicBuffer, accountDetails, setAccountDetails } = props;
   const [base64String, setBase64String] = useState("");
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsLogin(false);
     localStorage.removeItem("Account-Id");
+    setAccountDetails({
+      aboutAuthor: "",
+      createdAt: "",
+      email: "",
+      profilepic: "",
+      updatedAt: "",
+      username: "",
+      __v: 0,
+      _id: ""
+    })
     navigate('/')
   }
 
@@ -80,7 +90,7 @@ function Navbar(props) {
               </li>
 
               <li>
-                <Link to="/settings" style={{textDecoration: "none" }}>
+                <Link to="/settings" style={{ textDecoration: "none" }}>
                   <Button>
                     <Avatar alt={accountDetails.username} src={`data:image/png;base64,${base64String}`} />
                   </Button>

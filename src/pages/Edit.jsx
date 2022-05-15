@@ -3,11 +3,12 @@ import '../styles/write.scss';
 import { Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Loading from '../components/common/Loading';
-import { uploadImage } from '../services/imagesReq';
-import { addPost } from '../services/posts';
+import { uploadImage, getImage } from '../services/imagesReq';
+import { addPost, updatePost, getPostDetails } from '../services/posts';
 import { getAllCategories, addCategories } from '../services/categories';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -17,8 +18,10 @@ import { Select, Input } from 'antd';
 
 const { Option } = Select;
 
-function Write(props) {
+function Edit(props) {
     const { accountDetails } = props;
+    const { id } = useParams();
+    const [postDetails, setPostDetails] = useState({});
     const [title, setTitle] = useState("");
     const [postImg, setPostImg] = useState();
     const [postImageId, setPostImageId] = useState("");
@@ -32,6 +35,59 @@ function Write(props) {
     const navigate = useNavigate();
     const [postDescNew, setPostDescNew] = useState(() => EditorState.createEmpty());
     const [postDescFinal, setPostDescFinal] = useState("");
+
+    //setting default post detail
+    const handleGetPostData = async () => {
+        try {
+            let response = await getPostDetails(id);
+            setPostDetails(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        handleGetPostData();
+    }, []);
+
+    useEffect(() => {
+        if (postDetails) {
+            setTitle(postDetails.title);
+            setPostDescFinal(postDetails.desc);
+            setPostImageId(postDetails.photo);
+            setSelectedCatagory(postDetails.categories);
+        }
+    }, [postDetails]);
+
+    //setting post Image
+    const getImageBuffer = async (id) => {
+        try {
+            const bufferResponse = await getImage(id);
+            return bufferResponse.data.image.data.data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(async () => {
+        if (postImageId) {
+            const bufferResponse = await getImageBuffer(postImageId);
+            setPostImageBuffer(bufferResponse);
+        }
+    }, [postImageId])
+
+    //setting post description
+    useEffect(() => {
+        if (postDescFinal !== "") {
+            const blocksFromHTML = convertFromHTML(postDescFinal);
+            const state = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap,
+            );
+            setPostDescNew(() => EditorState.createWithContent(state));
+        }
+    }, [postDescFinal])
+
+    //editor logic
     let editorState = EditorState.createEmpty();
     const onEditorStateChange = (editorState) => {
         setPostDescNew(editorState);
@@ -53,10 +109,9 @@ function Write(props) {
             categories: selectedCatagory
         }
         try {
-            let response = await addPost(data);
-            console.log(response.data);
+            let response = await updatePost(id, data);
             setIsLoading(false);
-            navigate('/');
+            navigate(`/post/${id}`);
         } catch (error) {
             console.log(error);
             setIsLoading(false)
@@ -149,8 +204,13 @@ function Write(props) {
                     <label htmlFor="fileInput">
                         <AddIcon />
                     </label>
-                    <input id="fileInput" type="file" onChange={(e) => setPostImg(e.target.files[0])} style={{ display: "none" }} />
                     <input
+                        id="fileInput"
+                        type="file"
+                        onChange={(e) => setPostImg(e.target.files[0])} style={{ display: "none" }}
+                    />
+                    <input
+                        value={title}
                         className="writeInput titleInput"
                         placeholder="Title"
                         type="text"
@@ -176,11 +236,12 @@ function Write(props) {
                     }
 
                 </div>
-                <div className="category">
+                <div className="write-category">
                     <div className="selectCat">
                         <p className='selectCat-label'>Tag</p>
                         <Select
                             showSearch
+                            value={selectedCatagory ? selectedCatagory[0] : ""}
                             placeholder="Select a category"
                             optionFilterProp="children"
                             onChange={(value) => handleSelectCategory(value)}
@@ -222,4 +283,4 @@ function Write(props) {
     )
 }
 
-export default Write
+export default Edit

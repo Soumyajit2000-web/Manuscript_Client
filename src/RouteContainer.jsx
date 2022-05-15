@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import { getUserDetails } from './services/users';
 import Loading from './components/common/Loading';
 import { getImage } from './services/imagesReq';
+import Edit from './pages/Edit';
 
 const RouteContainer = (props) => {
     const { isLogin, setIsLogin } = props;
@@ -108,6 +109,7 @@ const RouteContainer = (props) => {
                 setIsLogin={setIsLogin} 
                 profilePicBuffer={profilePicBuffer}
                 accountDetails={accountDetails}
+                setAccountDetails={setAccountDetails}
             />
             <Toast
                 isToastOpen={isToastOpen}
@@ -132,6 +134,7 @@ const RouteContainer = (props) => {
                     />
                 } />
                 <Route path="/write" element={<Write accountDetails={accountDetails} />} />
+                <Route path="/edit/:id" element={<Edit accountDetails={accountDetails} />} /> 
                 <Route path="/settings" element={
                     <Settings
                         accountDetails={accountDetails}
@@ -141,7 +144,7 @@ const RouteContainer = (props) => {
 
                     />
                 } />
-                <Route path="/post/:postId" element={<PostPage />} />
+                <Route path="/post/:postId" element={<PostPage accountDetails={accountDetails} />} />
             </Routes>
             {
                 isLoading ? <Loading /> : null

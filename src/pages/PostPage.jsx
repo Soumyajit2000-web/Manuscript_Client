@@ -4,18 +4,26 @@ import AuthorDetails from '../components/AuthorDetails'
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import '../styles/postPage.scss';
-import { useParams } from 'react-router-dom';
-import { getPostDetails } from '../services/posts';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getPostDetails, deletePost } from '../services/posts';
 import { getImage } from '../services/imagesReq';
 import Loading from '../components/common/Loading';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import parse from 'html-react-parser';
 
-function PostPage() {
+function PostPage(props) {
+    const { accountDetails } = props;
     const { postId } = useParams();
     const [postData, setPostData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [postImgBuffer, setPostImgBuffer] = useState();
-    const [postImgBase64, setPostImgBase64] = useState("")
+    const [postImgBase64, setPostImgBase64] = useState("");
+    const navigate = useNavigate();
     //get post data from parameters
     const handleGetPostData = async () => {
         setIsLoading(true)
@@ -69,9 +77,27 @@ function PostPage() {
         }
     }, [postImgBuffer])
 
+    //handle deletePost 
+    const handleDeletePost = async () => {
+        setIsLoading(true);
+        let data = { userId: accountDetails._id }
+        try {
+            if (data){
+                let response = await deletePost(postId, data)
+                setIsLoading(false);
+                setIsOpen(false);
+                navigate('/');
+            }
+        } catch (err) {
+            console.error(err);
+            setIsLoading(false);
+        }
+
+    }
+
     return (
         <div className="postPageContainer">
-            <AuthorDetails 
+            <AuthorDetails
                 userId={postData.userId}
             />
             <div className="postContent">
@@ -81,8 +107,15 @@ function PostPage() {
                 <div className="postTitle">
                     <Typography variant="h6"> {postData.title} </Typography>
                     <div className="titleIcons">
-                        <Button style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px", display: "none" }}><EditRoundedIcon /></Button>
-                        <Button style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px", display: "none" }}><DeleteIcon /></Button>
+                        {
+                            accountDetails._id === postData.userId ? (
+                                <>
+                                    <Button onClick={() => navigate(`/edit/${postId}`)} style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}><EditRoundedIcon /></Button>
+                                    <Button onClick={()=>setIsOpen(true)} style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}><DeleteIcon /></Button>
+                                </>
+                            ) : null
+                        }
+
                     </div>
                 </div>
                 <div className="postDetails">
@@ -90,13 +123,34 @@ function PostPage() {
                 </div>
                 <div className="postBody">
                     <Typography variant="body2">
-                        {postData.desc !==undefined ? parse(postData.desc) : ""}
+                        {postData.desc !== undefined ? parse(postData.desc) : ""}
                     </Typography>
                 </div>
             </div>
             {
                 isLoading ? <Loading /> : null
             }
+            <Dialog
+                open={isOpen}
+                onClose={()=>setIsOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                       Are you sure you want to delete your post?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={()=>setIsOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDeletePost} color="secondary" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }
