@@ -145,7 +145,14 @@ const RouteContainer = (props) => {
                     />
                 ) : <h1>Must Be Logged In</h1>
                 } />
-                <Route path="/post/:postId" element={<PostPage accountDetails={accountDetails} />} />
+                <Route path="/post/:postId" element={
+                    <PostPage 
+                        accountDetails={accountDetails} 
+                        onToastClose={onToastClose}
+                        onToastOpen={onToastOpen}
+                    />
+                }
+                />
             </Routes>
             {
                 isLoading ? <Loading /> : null

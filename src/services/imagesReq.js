@@ -23,3 +23,8 @@ export const getImage = async (id) => {
     const api = apiInstance();
     return await api.get(`/images/upload/${id}`);
 }
+
+export const deleteImage = async (id) => {
+    const api = apiInstance();
+    return await api.delete(`/images/upload/${id}`);
+}

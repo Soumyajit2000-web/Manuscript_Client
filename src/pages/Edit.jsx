@@ -240,6 +240,7 @@ function Edit(props) {
                 <div className="write-category">
                     <div className="selectCat">
                         <p className='selectCat-label'>Tag</p>
+                        {/* will later be changed to mui */}
                         <Select
                             showSearch
                             value={selectedCatagory ? selectedCatagory[0] : ""}
