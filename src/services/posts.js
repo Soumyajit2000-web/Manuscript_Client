@@ -1,8 +1,8 @@
 import { apiInstance } from './api';
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (user = "", cat = "") => {
     const tempApi = apiInstance();
-    return await tempApi.get('/posts/');
+    return await tempApi.get(`/posts/?user=${user}&cat=${cat}`);
 }
 
 export const getPostDetails = async (id) => {
@@ -24,6 +24,6 @@ export const updatePost = async (postId, postData) => {
 //userId is required to be passed in postData
 export const deletePost = async (postId, postData) => {
     const tempApi = apiInstance();
-    return await tempApi.delete(`/posts/${postId}`, {data: postData})
+    return await tempApi.delete(`/posts/${postId}`, { data: postData })
 }
 
