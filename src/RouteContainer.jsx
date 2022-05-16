@@ -90,7 +90,7 @@ const RouteContainer = (props) => {
                 setIsLoading(false);
                 console.log(error);
             }
-        } else if(accountDetails.profilepic === "") {
+        } else if (accountDetails.profilepic === "") {
             setProfilePicBuffer([]);
         }
 
@@ -104,9 +104,9 @@ const RouteContainer = (props) => {
 
     return (
         <>
-            <Navbar 
-                isLogin={isLogin} 
-                setIsLogin={setIsLogin} 
+            <Navbar
+                isLogin={isLogin}
+                setIsLogin={setIsLogin}
                 profilePicBuffer={profilePicBuffer}
                 accountDetails={accountDetails}
                 setAccountDetails={setAccountDetails}
@@ -133,9 +133,9 @@ const RouteContainer = (props) => {
                         setIsLogin={setIsLogin}
                     />
                 } />
-                <Route path="/write" element={<Write accountDetails={accountDetails} />} />
-                <Route path="/edit/:id" element={<Edit accountDetails={accountDetails} />} /> 
-                <Route path="/settings" element={
+                <Route path="/write" element={isLogin ? <Write accountDetails={accountDetails} /> : <h1>Must Be Logged In</h1>} />
+                <Route path="/edit/:id" element={isLogin ? <Edit accountDetails={accountDetails} /> : <h1>Must Be Logged In</h1>} />
+                <Route path="/settings" element={isLogin ? (
                     <Settings
                         accountDetails={accountDetails}
                         setAccountDetails={setAccountDetails}
@@ -143,6 +143,7 @@ const RouteContainer = (props) => {
                         profilePicBuffer={profilePicBuffer}
 
                     />
+                ) : <h1>Must Be Logged In</h1>
                 } />
                 <Route path="/post/:postId" element={<PostPage accountDetails={accountDetails} />} />
             </Routes>
