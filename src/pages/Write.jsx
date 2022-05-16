@@ -176,7 +176,7 @@ function Write(props) {
                     }
 
                 </div>
-                <div className="category">
+                <div className="write-category">
                     <div className="selectCat">
                         <p className='selectCat-label'>Tag</p>
                         <Select

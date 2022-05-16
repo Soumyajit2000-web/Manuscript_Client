@@ -34,6 +34,7 @@ function Edit(props) {
     const [newCategory, setNewCategory] = useState("");
     const navigate = useNavigate();
     const [postDescNew, setPostDescNew] = useState(() => EditorState.createEmpty());
+    const [postDescOld, setPostDescOld] = useState("");
     const [postDescFinal, setPostDescFinal] = useState("");
 
     //setting default post detail
@@ -52,7 +53,7 @@ function Edit(props) {
     useEffect(() => {
         if (postDetails) {
             setTitle(postDetails.title);
-            setPostDescFinal(postDetails.desc);
+            setPostDescOld(postDetails.desc);
             setPostImageId(postDetails.photo);
             setSelectedCatagory(postDetails.categories);
         }
@@ -77,15 +78,15 @@ function Edit(props) {
 
     //setting post description
     useEffect(() => {
-        if (postDescFinal !== "") {
-            const blocksFromHTML = convertFromHTML(postDescFinal);
+        if (postDescOld) {
+            const blocksFromHTML = convertFromHTML(postDescOld);
             const state = ContentState.createFromBlockArray(
                 blocksFromHTML.contentBlocks,
                 blocksFromHTML.entityMap,
             );
             setPostDescNew(() => EditorState.createWithContent(state));
         }
-    }, [postDescFinal])
+    }, [postDescOld])
 
     //editor logic
     let editorState = EditorState.createEmpty();
@@ -239,6 +240,7 @@ function Edit(props) {
                 <div className="write-category">
                     <div className="selectCat">
                         <p className='selectCat-label'>Tag</p>
+                        {/* will later be changed to mui */}
                         <Select
                             showSearch
                             value={selectedCatagory ? selectedCatagory[0] : ""}

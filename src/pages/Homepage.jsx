@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 function Homepage(props) {
     const [postsResponse, setPostsResponse] = useState([]);
     const [categoryResponse, setCategoryResponse] = useState([]);
+    const [selectedCatagory, setSelectedCatagory] = useState("");
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -37,9 +38,9 @@ function Homepage(props) {
         }
     }
 
-    const handleGetAllPosts = async () => {
+    const handleGetAllPosts = async (user="", cat="") => {
         try {
-            let response = await getAllPosts();
+            let response = await getAllPosts(user, cat);
             setPostsResponse(response.data);
         } catch (err) {
             console.log(err);
@@ -48,11 +49,16 @@ function Homepage(props) {
 
     useEffect(() => {
         handleGetCategories();
-        handleGetAllPosts();
+        // handleGetAllPosts();
     }, [])
 
-    const handleCatClick = () => {
-        console.info('You clicked the Chip.');
+    useEffect(()=>{
+        handleGetAllPosts("", selectedCatagory)
+    }, [selectedCatagory])
+
+    const handleCatClick = (e, label) => {
+        // console.info(e.target.innerText);
+        setSelectedCatagory(e.target.innerText)
     };
 
     return (
@@ -70,7 +76,7 @@ function Homepage(props) {
                     <div className={classes.root}>
                         {
                             categoryResponse.map((category) => {
-                                return <Chip label={category.name} component="a" onClick={handleCatClick} clickable />
+                                return <Chip label={category.name} key={category.name} component="a" onClick={(e, label)=>handleCatClick(e, label)} clickable />
                             })
                         }
                     </div>
@@ -78,8 +84,8 @@ function Homepage(props) {
 
                 <div className="posts">
 
-                    <Typography varient="h5" style={{ textDecoration: "underline", fontSize: "1.5rem", fontWeight: "bolder" }}>
-                        TRENDING
+                    <Typography varient="h5" style={{ textDecoration: "underline", fontSize: "1.5rem", fontWeight: "bolder", textTransform: "uppercase" }}>
+                        {selectedCatagory ? selectedCatagory : "TRENDING"}
                     </Typography>
 
                     <div className="postWrapper">
