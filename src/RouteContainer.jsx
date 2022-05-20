@@ -12,6 +12,7 @@ import { getUserDetails } from './services/users';
 import Loading from './components/common/Loading';
 import { getImage } from './services/imagesReq';
 import Edit from './pages/Edit';
+import AboutUs from './pages/AboutUs';
 
 const RouteContainer = (props) => {
     const { isLogin, setIsLogin } = props;
@@ -146,11 +147,15 @@ const RouteContainer = (props) => {
                 ) : <h1>Must Be Logged In</h1>
                 } />
                 <Route path="/post/:postId" element={
-                    <PostPage 
-                        accountDetails={accountDetails} 
+                    <PostPage
+                        accountDetails={accountDetails}
                         onToastClose={onToastClose}
                         onToastOpen={onToastOpen}
                     />
+                }
+                />
+                <Route path="/about" element={
+                    <AboutUs />
                 }
                 />
             </Routes>
