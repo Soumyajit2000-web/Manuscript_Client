@@ -80,7 +80,7 @@ function Navbar(props) {
             <ul>
               <li>
                 <Button
-                  style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                  style={{ display: "none", borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
                   {
                     <Brightness4RoundedIcon />
                   }
@@ -149,7 +149,7 @@ function Navbar(props) {
 
             <li>
               <Button
-                style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                style={{ display: "none", borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
                 {
                   <Brightness4RoundedIcon />
                 }
@@ -185,7 +185,7 @@ function Navbar(props) {
         </div>
         <div className="user">
           <ul>
-            <li><Button style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>{<Brightness4RoundedIcon />}</Button></li>
+            <li><Button style={{display: 'none', borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>{<Brightness4RoundedIcon />}</Button></li>
             <li>
               <Link to="/login" style={{ textDecoration: "none" }}>
                 <Button>Login</Button>
@@ -221,7 +221,7 @@ function Navbar(props) {
 
           <li>
             <Button
-              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+              style={{ display: "none", borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
               {
                 <Brightness4RoundedIcon />
               }
