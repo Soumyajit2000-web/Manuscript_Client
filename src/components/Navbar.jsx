@@ -63,7 +63,11 @@ function Navbar(props) {
                 <Button>Home</Button>
               </Link>
               </li>
-              <li><Button>About Us</Button></li>
+              <li>
+                <Link to="/about" style={{ textDecoration: "none" }}>
+                  <Button>About Us</Button>
+                </Link>
+              </li>
               <li>
                 <Link to="/write" style={{ textDecoration: "none" }}>
                   <Button>Write</Button>
@@ -172,7 +176,11 @@ function Navbar(props) {
               <Button>Home</Button>
             </Link>
             </li>
-            <li><Button>About Us</Button></li>
+            <li>
+              <Link to="/about" style={{ textDecoration: "none" }}>
+                <Button>About Us</Button>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="user">
