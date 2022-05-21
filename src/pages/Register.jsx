@@ -20,7 +20,8 @@ function Register(props) {
         const data = {
             username: userName,
             email: email,
-            password: password
+            password: password,
+            isAdmin: false,
         }
 
         try {

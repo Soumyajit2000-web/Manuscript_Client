@@ -11,10 +11,10 @@ function AboutUs() {
         <div className="main">
         <div className="about-webPage">
             <div className="about-content">
-                <h1 className="heading">Transmogrify
+                <h1 className="about-heading">Transmogrify
                     the art of daily experiences</h1>
-                <div className="sub-heading">
-                    <p className="subheading">Manuscript is an open-source platform for the
+                <div className="about-sub-heading">
+                    <p className="about-subheading">Manuscript is an open-source platform for the
                         bloggers, where they can post their blogs/articles on their interested topic, which will be
                         reviewed and scaled by others. In short, we can wrap it up like that it is a social blogging
                         media platform, where people will be able to exchange their experience with everyone under
@@ -34,56 +34,56 @@ function AboutUs() {
                 <img src={Illustraion} alt=""/>
             </div>
         </div>
-        <div className="team-section">
-            <div className="title">
-                <h1 className="team"><u>The Minds Behind Manuscript</u></h1>
+        <div className="about-team-section">
+            <div className="about-title">
+                <h1 className="about-team"><u>The Minds Behind Manuscript</u></h1>
             </div>
-            <div className="container">
+            <div className="about-container">
 
-                <div className="card">
+                <div className="about-card">
 
-                    <img src={Arunava} alt="" className="profile-pic" />
+                    <img src={Arunava} alt="" className="about-profile-pic" />
 
-                    <div className="member-info">
-                        <span className="name">Arunava Pal</span>
-                        <span className="subtitle">Web Designer</span>
-                        <span className="description">A final year B.Tech student in CSE discipline,
+                    <div className="about-member-info">
+                        <span className="about-name">Arunava Pal</span>
+                        <span className="about-subtitle">Web Designer</span>
+                        <span className="about-description">A final year B.Tech student in CSE discipline,
                             passionate about web development.
                         </span>
                     </div>
                 </div>
-                <div className="card">
+                <div className="about-card">
 
-                    <img src={Soumyajit} alt="" className="profile-pic"/>
+                    <img src={Soumyajit} alt="" className="about-profile-pic"/>
 
-                    <div className="member-info">
-                        <span className="name">Soumyajit Das</span>
-                        <span className="subtitle">Full-Stack Developer</span>
-                        <span className="description">A Full-Stack developer with a deranged
+                    <div className="about-member-info">
+                        <span className="about-name">Soumyajit Das</span>
+                        <span className="about-subtitle">Full-Stack Developer</span>
+                        <span className="about-description">A Full-Stack developer with a deranged
                             passion of web development, currently pursuing B.Tech in CSE.
                         </span>
                     </div>
                 </div>
-                <div className="card">
+                <div className="about-card">
 
-                    <img src={Avik} alt="" className="profile-pic"/>
+                    <img src={Avik} alt="" className="about-profile-pic"/>
 
-                    <div className="member-info">
-                        <span className="name">Avik Roy</span>
-                        <span className="subtitle">Back-End Developer</span>
-                        <span className="description">A passionate developer with in-depth knowledge in DSA and
+                    <div className="about-member-info">
+                        <span className="about-name">Avik Roy</span>
+                        <span className="about-subtitle">Back-End Developer</span>
+                        <span className="about-description">A passionate developer with in-depth knowledge in DSA and
                             Back-End technologies.
                         </span>
                     </div>
                 </div>
-                <div className="card">
+                <div className="about-card">
 
-                    <img src={Tanmoy} alt="" className="profile-pic"/>
+                    <img src={Tanmoy} alt="" className="about-profile-pic"/>
 
-                    <div className="member-info">
-                        <span className="name">Tanmoy Chatterjee</span>
-                        <span className="subtitle">Database Developer</span>
-                        <span className="description">A CSE grad student with a bulk concept of DSA
+                    <div className="about-member-info">
+                        <span className="about-name">Tanmoy Chatterjee</span>
+                        <span className="about-subtitle">Database Developer</span>
+                        <span className="about-description">A CSE grad student with a bulk concept of DSA
                             and competitive programming.
                         </span>
                     </div>

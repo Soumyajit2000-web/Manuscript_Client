@@ -52,7 +52,8 @@ function Settings(props) {
             username: username,
             email: email,
             aboutAuthor: aboutAuthor,
-            profilepic: profilePicId
+            profilepic: profilePicId,
+            isAdmin: false,
         }
         try {
             const response = await updateUser(accountDetails._id, data);
