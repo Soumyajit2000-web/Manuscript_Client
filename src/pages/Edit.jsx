@@ -19,7 +19,7 @@ import { Select, Input } from 'antd';
 const { Option } = Select;
 
 function Edit(props) {
-    const { accountDetails } = props;
+    const { accountDetails, onToastClose, onToastOpen } = props;
     const { id } = useParams();
     const [postDetails, setPostDetails] = useState({});
     const [title, setTitle] = useState("");
@@ -36,6 +36,16 @@ function Edit(props) {
     const [postDescNew, setPostDescNew] = useState(() => EditorState.createEmpty());
     const [postDescOld, setPostDescOld] = useState("");
     const [postDescFinal, setPostDescFinal] = useState("");
+    const [isInputDisabled, setIsInputDisabled] = useState(false);
+
+    useEffect(()=>{
+        if(base64String){
+            setIsInputDisabled(true);
+        }else{
+            setIsInputDisabled(false);
+        }
+
+    }, [base64String])
 
     //setting default post detail
     const handleGetPostData = async () => {
@@ -113,9 +123,23 @@ function Edit(props) {
             let response = await updatePost(id, data);
             setIsLoading(false);
             navigate(`/post/${id}`);
+            onToastOpen({
+                severity: 'success',
+                message: 'Changes are saved successfully!'
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
         } catch (error) {
             console.log(error);
             setIsLoading(false)
+            onToastOpen({
+                severity: 'error',
+                message: 'Something went wrong!'
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
         }
 
     }
@@ -209,6 +233,7 @@ function Edit(props) {
                         id="fileInput"
                         type="file"
                         onChange={(e) => setPostImg(e.target.files[0])} style={{ display: "none" }}
+                        disabled={isInputDisabled}
                     />
                     <input
                         value={title}
