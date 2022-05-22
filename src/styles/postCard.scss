@@ -16,6 +16,11 @@
   position: relative;
   overflow: hidden;
   box-shadow: 5px 5px 10px #cecece, -5px -5px 10px #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+
+.card:hover{
+  box-shadow: 15px 15px 20px #cecece;
 }
 
 .card_background {
