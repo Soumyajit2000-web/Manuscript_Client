@@ -35,17 +35,17 @@ function Register(props) {
             })
             setTimeout(()=>{
                 onToastClose();
-            }, 5000)
+            }, 6000)
         } catch (error) {
             console.log(error);
             setIsLoading(false);
             onToastOpen({
                 severity: "error",
-                message: "Something went wrong!!!"
+                message: `${error.response.data}`
             })
             setTimeout(()=>{
                 onToastClose();
-            }, 5000)
+            }, 6000)
         }
 
     }

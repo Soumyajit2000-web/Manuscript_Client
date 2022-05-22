@@ -32,11 +32,11 @@ function Login(props) {
             setIsLoading(false);
             onToastOpen({
                 severity: "error",
-                message: "Something went wrong!!!"
+                message: `${err.response.data}`
             })
             setTimeout(()=>{
                 onToastClose();
-            }, 5000)
+            }, 6000)
         }
 
     }

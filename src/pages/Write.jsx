@@ -18,7 +18,7 @@ import { Select, Input } from 'antd';
 const { Option } = Select;
 
 function Write(props) {
-    const { accountDetails } = props;
+    const { accountDetails, onToastOpen, onToastClose } = props;
     const [title, setTitle] = useState("");
     const [postImg, setPostImg] = useState();
     const [postImageId, setPostImageId] = useState("");
@@ -32,6 +32,17 @@ function Write(props) {
     const navigate = useNavigate();
     const [postDescNew, setPostDescNew] = useState(() => EditorState.createEmpty());
     const [postDescFinal, setPostDescFinal] = useState("");
+    const [isInputDisabled, setIsInputDisabled] = useState(false);
+
+    useEffect(()=>{
+        if(base64String){
+            setIsInputDisabled(true);
+        }else{
+            setIsInputDisabled(false);
+        }
+
+    }, [base64String])
+
     let editorState = EditorState.createEmpty();
     const onEditorStateChange = (editorState) => {
         setPostDescNew(editorState);
@@ -56,10 +67,24 @@ function Write(props) {
             let response = await addPost(data);
             console.log(response.data);
             setIsLoading(false);
+            onToastOpen({
+                severity: 'success',
+                message: 'Your post was successfully added!'
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
             navigate('/');
         } catch (error) {
             console.log(error);
-            setIsLoading(false)
+            setIsLoading(false);
+            onToastOpen({
+                severity: 'error',
+                message: `${error.response.data.message}`,
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
         }
 
     }
@@ -128,8 +153,23 @@ function Write(props) {
             try {
                 let response = await addCategories(data);
                 handleGetAllCategories();
+                onToastOpen({
+                    severity: 'success',
+                    message: 'New catagory is added. Now you can use your tag.'
+                })
+                setTimeout(() => {
+                    onToastClose();
+                }, 6000)
+                setNewCategory("");
             } catch (err) {
                 console.log(err);
+                onToastOpen({
+                    severity: 'error',
+                    message: 'Something went wrong!'
+                })
+                setTimeout(() => {
+                    onToastClose();
+                }, 6000)
             }
         }
 
@@ -149,7 +189,13 @@ function Write(props) {
                     <label htmlFor="fileInput">
                         <AddIcon />
                     </label>
-                    <input id="fileInput" type="file" onChange={(e) => setPostImg(e.target.files[0])} style={{ display: "none" }} />
+                    <input 
+                        id="fileInput" 
+                        type="file" 
+                        onChange={(e) => setPostImg(e.target.files[0])} 
+                        style={{ display: "none" }} 
+                        disabled={isInputDisabled}
+                    />
                     <input
                         className="writeInput titleInput"
                         placeholder="Title"
@@ -200,7 +246,7 @@ function Write(props) {
                     <div className="addCat">
                         <p className="addCat-label">Can't find the perfect tag?</p>
                         <div className='addCat-input-container'>
-                            <Input placeholder="Add New Category" onChange={(e) => setNewCategory(e.target.value)} />
+                            <Input placeholder="Add New Category" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
                             <Button onClick={handleAddNewCategory}><AddIcon /></Button>
                         </div>
                     </div>

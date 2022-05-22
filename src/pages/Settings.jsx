@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
-    const { accountDetails, setAccountDetails, profilePicBuffer, setProfilePicBuffer } = props;
+    const { accountDetails, handleGetAccountDetails, setAccountDetails, profilePicBuffer, setProfilePicBuffer, onToastClose, onToastOpen } = props;
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -59,10 +59,25 @@ function Settings(props) {
             const response = await updateUser(accountDetails._id, data);
             console.log(response);
             setAccountDetails(response.data);
+            // await handleGetAccountDetails();
             setIsLoading(false);
+            onToastOpen({
+                severity: 'success',
+                message: 'Account details updated successfully'
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
         } catch (error) {
             setIsLoading(false);
             console.log(error);
+            onToastOpen({
+                severity: 'error',
+                message: 'Something went wrong!'
+            })
+            setTimeout(() => {
+                onToastClose();
+            }, 6000)
         }
     }
 

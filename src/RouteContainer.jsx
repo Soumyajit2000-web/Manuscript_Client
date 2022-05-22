@@ -65,7 +65,7 @@ const RouteContainer = (props) => {
             })
             setTimeout(() => {
                 onToastClose();
-            }, 5000)
+            }, 6000)
         }
     }
 
@@ -122,7 +122,13 @@ const RouteContainer = (props) => {
             />
 
             <Routes>
-                <Route exact path="/" element={<Homepage isLogin={isLogin} />} />
+                <Route exact path="/" element={
+                    <Homepage 
+                        isLogin={isLogin}
+                        setIsLoading={setIsLoading}
+                    />
+                } 
+                />
                 <Route path="/register" element={
                     <Register
                         onToastOpen={onToastOpen}
@@ -136,17 +142,35 @@ const RouteContainer = (props) => {
                         setIsLogin={setIsLogin}
                     />
                 } />
-                <Route path="/write" element={isLogin ? <Write accountDetails={accountDetails} /> : <Unauthorised/>} />
-                <Route path="/edit/:id" element={isLogin ? <Edit accountDetails={accountDetails} /> : <Unauthorised/>} />
+                <Route path="/write" element={isLogin ?
+                    <Write
+                        onToastOpen={onToastOpen}
+                        onToastClose={onToastClose}
+                        accountDetails={accountDetails}
+                    />
+                    : <Unauthorised />
+                }
+                />
+                <Route path="/edit/:id" element={isLogin ? 
+                    <Edit 
+                        accountDetails={accountDetails}
+                        onToastOpen={onToastOpen}
+                        onToastClose={onToastClose}
+                    /> 
+                    : <Unauthorised />
+                } 
+                />
                 <Route path="/settings" element={isLogin ? (
                     <Settings
                         accountDetails={accountDetails}
                         setAccountDetails={setAccountDetails}
                         setProfilePicBuffer={setProfilePicBuffer}
                         profilePicBuffer={profilePicBuffer}
-
+                        onToastOpen={onToastOpen}
+                        onToastClose={onToastClose}
+                        handleGetAccountDetails={handleGetAccountDetails}
                     />
-                ) : <Unauthorised/>
+                ) : <Unauthorised />
                 } />
                 <Route path="/post/:postId" element={
                     <PostPage
@@ -161,7 +185,7 @@ const RouteContainer = (props) => {
                 }
                 />
                 <Route path="*" element={
-                    <Error404/>
+                    <Error404 />
                 }
                 />
             </Routes>

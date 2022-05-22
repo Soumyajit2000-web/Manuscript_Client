@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,13 +16,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const vertical = 'top';
+const horizontal = 'center';
+
 export default function Toast(props) {
     const classes = useStyles();
     const { isToastOpen, toastSeverity, toastMessage, setIsToastOpen } = props;
 
     return (
         <div className={classes.root}>
-            <Collapse in={isToastOpen}>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                key={vertical + horizontal}
+                open={isToastOpen}
+                autoHideDuration={6000}
+            >
                 <Alert
                     severity={toastSeverity}
                     action={
@@ -39,7 +48,7 @@ export default function Toast(props) {
                 >
                     {toastMessage}
                 </Alert>
-            </Collapse>
+            </Snackbar>
         </div>
     );
 }

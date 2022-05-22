@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage(props) {
+    const { setIsLoading, isLogin } = props;
     const [postsResponse, setPostsResponse] = useState([]);
     const [categoryResponse, setCategoryResponse] = useState([]);
     const [selectedCatagory, setSelectedCatagory] = useState("");
@@ -30,20 +31,26 @@ function Homepage(props) {
     const navigate = useNavigate();
 
     const handleGetCategories = async () => {
+        setIsLoading(true)
         try {
             let response = await getAllCategories();
             setCategoryResponse(response.data)
+            setIsLoading(false);
         } catch (err) {
             console.log(err);
+            setIsLoading(false);
         }
     }
 
-    const handleGetAllPosts = async (user="", cat="") => {
+    const handleGetAllPosts = async (user = "", cat = "") => {
+        setIsLoading(true);
         try {
             let response = await getAllPosts(user, cat);
             setPostsResponse(response.data);
+            setIsLoading(false);
         } catch (err) {
             console.log(err);
+            setIsLoading(false);
         }
     }
 
@@ -52,7 +59,7 @@ function Homepage(props) {
         // handleGetAllPosts();
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         handleGetAllPosts("", selectedCatagory)
     }, [selectedCatagory])
 
@@ -64,9 +71,7 @@ function Homepage(props) {
     return (
         <>
             {
-
-                props.isLogin ? null : <Cta />
-
+                isLogin ? null : <Cta />
             }
             <div className="postContainer">
                 <div className="chips">
@@ -76,7 +81,7 @@ function Homepage(props) {
                     <div className={classes.root}>
                         {
                             categoryResponse.map((category) => {
-                                return <Chip label={category.name} key={category.name} component="a" onClick={(e, label)=>handleCatClick(e, label)} clickable />
+                                return <Chip label={category.name} key={category.name} component="a" onClick={(e, label) => handleCatClick(e, label)} clickable />
                             })
                         }
                     </div>
