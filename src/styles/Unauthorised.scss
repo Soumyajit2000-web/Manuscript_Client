@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
+
+.unauth-container {
+    min-height: calc(100vh - 7.5rem);
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .unauth-img {
+        max-width: 400px;
+        width: 80%;
+    }
+
+    .unauth-title {
+        font-family: "Lato", sans-serif;
+        font-weight: 700;
+        font-size: 35px;
+        text-align: center;
+    }
+
+    .unauth-desc{
+        font-size: 20px;
+        line-height: 25px;
+        margin: 0 auto;
+        text-align: center;
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        color: black;
+    }
+
+
+}

@@ -13,6 +13,8 @@ import Loading from './components/common/Loading';
 import { getImage } from './services/imagesReq';
 import Edit from './pages/Edit';
 import AboutUs from './pages/AboutUs';
+import Unauthorised from './pages/Unauthorised';
+import Error404 from './pages/Error404';
 
 const RouteContainer = (props) => {
     const { isLogin, setIsLogin } = props;
@@ -134,8 +136,8 @@ const RouteContainer = (props) => {
                         setIsLogin={setIsLogin}
                     />
                 } />
-                <Route path="/write" element={isLogin ? <Write accountDetails={accountDetails} /> : <h1>Must Be Logged In</h1>} />
-                <Route path="/edit/:id" element={isLogin ? <Edit accountDetails={accountDetails} /> : <h1>Must Be Logged In</h1>} />
+                <Route path="/write" element={isLogin ? <Write accountDetails={accountDetails} /> : <Unauthorised/>} />
+                <Route path="/edit/:id" element={isLogin ? <Edit accountDetails={accountDetails} /> : <Unauthorised/>} />
                 <Route path="/settings" element={isLogin ? (
                     <Settings
                         accountDetails={accountDetails}
@@ -144,7 +146,7 @@ const RouteContainer = (props) => {
                         profilePicBuffer={profilePicBuffer}
 
                     />
-                ) : <h1>Must Be Logged In</h1>
+                ) : <Unauthorised/>
                 } />
                 <Route path="/post/:postId" element={
                     <PostPage
@@ -156,6 +158,10 @@ const RouteContainer = (props) => {
                 />
                 <Route path="/about" element={
                     <AboutUs />
+                }
+                />
+                <Route path="*" element={
+                    <Error404/>
                 }
                 />
             </Routes>
