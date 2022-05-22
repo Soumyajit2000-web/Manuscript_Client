@@ -8,6 +8,7 @@ import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
 import { Link, useNavigate } from 'react-router-dom';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 
 function Navbar(props) {
   const { isLogin, setIsLogin, profilePicBuffer, accountDetails, setAccountDetails } = props;
@@ -109,7 +110,9 @@ function Navbar(props) {
             <li>
               <Link to="/">
                 <Button
-                  style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                  style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+                  onClick={()=>navigate('/')}
+                >
                   {
                     <HomeRoundedIcon />
                   }
@@ -121,7 +124,9 @@ function Navbar(props) {
             <li>
               <Link to="/write">
                 <Button
-                  style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                  style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+                  onClick={()=>navigate('/write')}
+                >
                   {
                     <CreateRoundedIcon />
                   }
@@ -132,7 +137,9 @@ function Navbar(props) {
 
             <li>
               <Button
-                style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+                onClick={()=>navigate('/about')}
+              >
                 {
                   <InfoRoundedIcon />
                 }
@@ -147,9 +154,9 @@ function Navbar(props) {
               </Link>
             </li>
 
-            <li>
+            <li style={{ display: "none" }}>
               <Button
-                style={{ display: "none", borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+                style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
                 {
                   <Brightness4RoundedIcon />
                 }
@@ -185,7 +192,7 @@ function Navbar(props) {
         </div>
         <div className="user">
           <ul>
-            <li><Button style={{display: 'none', borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>{<Brightness4RoundedIcon />}</Button></li>
+            <li><Button style={{ display: 'none', borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>{<Brightness4RoundedIcon />}</Button></li>
             <li>
               <Link to="/login" style={{ textDecoration: "none" }}>
                 <Button>Login</Button>
@@ -203,7 +210,9 @@ function Navbar(props) {
         <ul>
           <li>
             <Button
-              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+              onClick={()=>navigate('/')}  
+            >
               {
                 <HomeRoundedIcon />
               }
@@ -212,7 +221,9 @@ function Navbar(props) {
 
           <li>
             <Button
-              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+              onClick={()=>navigate('/about')}
+            >
               {
                 <InfoRoundedIcon />
               }
@@ -221,7 +232,18 @@ function Navbar(props) {
 
           <li>
             <Button
-              style={{ display: "none", borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
+              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}
+              onClick={()=>navigate('/login')}
+            >
+              {
+                <AccountCircleRoundedIcon />
+              }
+            </Button>
+          </li>
+
+          <li style={{ display: "none" }}>
+            <Button
+              style={{ borderRadius: "100px", minWidth: "45px", minHeight: "45px" }}>
               {
                 <Brightness4RoundedIcon />
               }
