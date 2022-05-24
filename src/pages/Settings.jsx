@@ -3,12 +3,14 @@ import AuthorDetails from '../components/AuthorDetails'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+// import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import RemoveCircleRoundedIcon from '@material-ui/icons/RemoveCircleRounded';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import Loading from '../components/common/Loading';
 import '../styles/settings.scss'
 import { updateUser } from '../services/users';
-import { uploadImage } from '../services/imagesReq';
+import { uploadImage, deleteImage } from '../services/imagesReq';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
-    const { accountDetails, handleGetAccountDetails, setAccountDetails, profilePicBuffer, setProfilePicBuffer, onToastClose, onToastOpen } = props;
+    const {
+        accountDetails,
+        handleGetAccountDetails,
+        setAccountDetails,
+        profilePicBuffer,
+        setProfilePicBuffer,
+        onToastClose,
+        onToastOpen
+    } = props;
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -92,6 +102,7 @@ function Settings(props) {
             setProfilePicId(response.data._id);
             setProfilePicBuffer(response.data.image.data.data);
             setIsLoading(false);
+            // await updateAccount();
         } catch (error) {
             console.log(error);
             setIsLoading(false);
@@ -121,15 +132,36 @@ function Settings(props) {
         }
     }, [profilePicBuffer])
 
+    const handleImgDelete = async () => {
+        try {
+            let resp = await deleteImage(profilePicId)
+            setProfilePicBuffer("");
+            setProfilePicId("");
+            setBase64String("");
+            await updateAccount();
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     return (
         <>
             <div className="userProfie">
                 <div className="updateProfile">
                     <div className="profilePic">
                         <Avatar alt="Name" src={`data:image/png;base64,${base64String}`} className={classes.large} />
-                        <label for="addProfilePic">
-                            <AddCircleRoundedIcon />
-                        </label>
+                        {
+                            base64String ? (
+                                <div className='removeProfilePic' onClick={handleImgDelete} style={{cursor: "pointer"}}>
+                                    <RemoveCircleRoundedIcon />
+                                </div>
+                            ) : (
+                                <label for="addProfilePic">
+                                    <AddCircleRoundedIcon />
+                                </label>
+                            )
+                        }
+
                         <input type="file" id="addProfilePic" onChange={(e) => setProfilePic(e.target.files[0])} style={{ display: "none" }} />
                     </div>
 
@@ -168,7 +200,7 @@ function Settings(props) {
                     </div>
                 </div>
                 <AuthorDetails
-                    userId={accountDetails._id} 
+                    userId={accountDetails._id}
                 />
                 {
                     isLoading ? <Loading /> : null
