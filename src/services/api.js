@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// export const apiBaseUrl = "https://manuscript-backend.herokuapp.com/api"
-export const apiBaseUrl = "http://localhost:9000/api";
+export const apiBaseUrl = "https://manuscript-backend.herokuapp.com/api";
 
 export const api = axios.create({
     baseURL: apiBaseUrl
